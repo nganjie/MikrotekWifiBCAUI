@@ -37,9 +37,30 @@
               }
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "src/assets/css/bootstrap.min.css",
+              "src/assets/css/plugins.min.css",
+              "src/assets/css/kaiadmin.min.css",
+              "src/assets/css/demo.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/js/plugin/webfont/webfont.min.js",
+              "src/assets/js/core/jquery-3.7.1.min.js",
+              "src/assets/js/core/popper.min.js",
+              "src/assets/js/core/bootstrap.min.js",
+              "src/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js",
+              "src/assets/js/plugin/chart.js/chart.min.js",
+              "src/assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js",
+              "src/assets/js/plugin/chart-circle/circles.min.js",
+              "src/assets/js/plugin/datatables/datatables.min.js",
+              "src/assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js",
+              "src/assets/js/plugin/jsvectormap/jsvectormap.min.js",
+              "src/assets/js/plugin/jsvectormap/world.js",
+              "src/assets/js/plugin/sweetalert/sweetalert.min.js",
+              "src/assets/js/kaiadmin.min.js",
+              "src/assets/js/setting-demo.js",
+              "src/assets/js/demo.js"
+            ]
           },
           "configurations": {
             "production": {
