@@ -1,0 +1,50 @@
+<div>
+    <h1>Zone Wifi</h1>
+    <div>
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400" >
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr >
+                    
+                    <th scope="col" class="px-6 py-3">{{"Name"|translate}}</th>
+                    <th scope="col" class="px-6 py-3">{{"City"|translate}}</th>
+                    <th scope="col" class="px-6 py-3">{{"captive gate"|translate}}</th>
+                    <th scope="col" class="px-6 py-3">{{"is active sms"|translate}}</th>
+                    <th scope="col" class="px-6 py-3">{{"wallet"|translate}}</th>
+                    <th scope="col" class="px-6 py-3">{{"state"|translate}}</th>
+                    <th scope="col" class="px-6 py-3">{{"create at"|translate}}</th>
+                    <th scope="col" class="px-6 py-3">Actions</th>
+                    
+                    
+                </tr>
+            </thead>
+            
+            <tbody>
+                @if(wifiZones$|async; as wifiZones){
+                    @for(wifiZone of wifiZones;track wifiZone.id;;let i=$index){
+                        <tr class="dark:bg-gray-800 dark:border-gray-700" [ngClass]="i%2!==0?'bg-gray-100 border-b':'bg-white border-b'">
+                            <td class="px-6 py-4 primary-color">{{wifiZone.name}}</td>
+                            <td class="px-6 py-4">{{wifiZone.city}}</td>
+                            <td class="px-6 py-4">{{wifiZone.captive_gate}}</td>
+                            <td class="px-6 py-4">{{wifiZone.is_active_sms}}</td>
+                            <td class="px-6 py-4">{{wifiZone.wallet}}</td>
+                            <td class="px-6 py-4">{{wifiZone.state}}</td>
+                            <td class="px-6 py-4">{{wifiZone.created_at|date:'medium'}}</td>
+                            
+                            <td class="btn-action">
+                                
+                            </td>
+                        </tr>
+                    }
+                }
+                    
+            
+            </tbody>
+        </table>
+        <mat-paginator #paginator [length]="totaElement" (page)="pageEvent=pageChange($event)"
+        [pageSize]="itemsPerPage"
+       [pageSizeOptions]="pageArray"
+       
+       aria-label="Select page">
+       </mat-paginator>
+    </div>
+</div>

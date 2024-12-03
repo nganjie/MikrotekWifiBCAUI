@@ -1,5 +1,5 @@
 "use strict";
-
+/*
 const modalShowcase = `
 <!-- Demo Showcase -->
 <style>
@@ -426,4 +426,4 @@ $("#activeUsersChart").sparkline([112,109,120,107,110,85,87,90,102,109,120,99,11
 	barWidth: 9,
 	barSpacing: 10,
 	barColor: 'rgba(255,255,255,.3)'
-});
+});*/

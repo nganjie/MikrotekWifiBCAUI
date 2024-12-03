@@ -54,11 +54,9 @@
               "src/assets/js/plugin/chart-circle/circles.min.js",
               "src/assets/js/plugin/datatables/datatables.min.js",
               "src/assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js",
-              "src/assets/js/plugin/jsvectormap/jsvectormap.min.js",
-              "src/assets/js/plugin/jsvectormap/world.js",
+         
               "src/assets/js/plugin/sweetalert/sweetalert.min.js",
               "src/assets/js/kaiadmin.min.js",
-              "src/assets/js/setting-demo.js",
               "src/assets/js/demo.js"
             ]
           },
