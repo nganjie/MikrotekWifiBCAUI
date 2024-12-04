@@ -794,7 +794,7 @@ body {
         position: relative;
         margin-left: 25px;
         opacity: .85; }
-        .sidebar .nav-collapse li a .sub-item:before, .sidebar[data-background-color="white"] .nav-collapse li a .sub-item:before {
+        /*.sidebar .nav-collapse li a .sub-item:before, .sidebar[data-background-color="white"] .nav-collapse li a .sub-item:before {
           content: '';
           height: 4px;
           width: 4px;
@@ -803,7 +803,7 @@ body {
           left: -15px;
           top: 50%;
           transform: translateY(-50%);
-          border-radius: 100%; }
+          border-radius: 100%; }*/
       .sidebar .nav-collapse li a:hover .sub-item, .sidebar[data-background-color="white"] .nav-collapse li a:hover .sub-item {
         opacity: 1; }
       .sidebar .nav-collapse li a .sidebar-mini-icon, .sidebar[data-background-color="white"] .nav-collapse li a .sidebar-mini-icon {

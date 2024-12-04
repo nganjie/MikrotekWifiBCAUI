@@ -37,10 +37,11 @@
               }
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/deeppurple-amber.css",
               "src/styles.css",
+              "src/assets/css/kaiadmin.css",
               "src/assets/css/bootstrap.min.css",
               "src/assets/css/plugins.min.css",
-              "src/assets/css/kaiadmin.min.css",
               "src/assets/css/demo.css"
             ],
             "scripts": [

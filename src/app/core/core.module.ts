@@ -12,6 +12,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { RouterOutlet } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { createTranslateLoader } from '../app.module';
+import { SharedModule } from '../shared/shared.module';
+import { LanguageService } from '../services/language/language.service';
 
 
 @NgModule({
@@ -24,18 +28,24 @@ import { LoginComponent } from './components/login/login.component';
   imports: [
     CommonModule,
     CoreRoutingModule,
-    HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
     RouterOutlet,
+    TranslateModule.forRoot({
+      loader:{
+        provide:TranslateLoader,
+        useFactory:(createTranslateLoader),
+        deps:[HttpClient]
+      }
+    }
+    ),
+    SharedModule
   ],
   exports:[
     DashboardMenuComponent,
     SidebarTopComponent,
     LoginComponent
+  ],
+  providers:[
+    LanguageService
   ]
 })
 export class CoreModule { }

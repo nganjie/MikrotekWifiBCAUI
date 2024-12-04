@@ -2,8 +2,13 @@
     <app-sidebar-left></app-sidebar-left>
     <div class="main-panel">
         <app-sidebar-top></app-sidebar-top>
-        <div class="container"></div>
-        <router-outlet></router-outlet>
+        <div class="container">
+          <div class="page-inner">
+            <router-outlet></router-outlet>
+          </div>
+          
+        </div>
+        
         <footer class="footer">
             <div class="container-fluid d-flex justify-content-between">
               <nav class="pull-left">
