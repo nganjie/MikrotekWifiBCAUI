@@ -1,13 +1,21 @@
 <div>
-    <h1>Zone Wifi</h1>
+    <div class="flex mb-20 mt-10">
+        <div class="w-1/2">
+            <h1>{{"Wi-Fi zone"|translate}}</h1>
+        </div>
+        <div class="w-1/2">
+            <button  class="btn btn-primary btn-round" (click)="createWifiZone()">{{"Add Wifi-Zone"|translate}}</button>
+        </div>
+    </div>
+    
     <div>
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400" >
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr >
                     
                     <th scope="col" class="px-6 py-3">{{"Name"|translate}}</th>
-                    <th scope="col" class="px-6 py-3">{{"City"|translate}}</th>
-                    <th scope="col" class="px-6 py-3">{{"captive gate"|translate}}</th>
+                    <th scope="col" class="px-6 py-3">{{"city"|translate}}</th>
+                    <th scope="col" class="px-6 py-3">{{"DNS Adress"|translate}}</th>
                     <th scope="col" class="px-6 py-3">{{"is active sms"|translate}}</th>
                     <th scope="col" class="px-6 py-3">{{"wallet"|translate}}</th>
                     <th scope="col" class="px-6 py-3">{{"state"|translate}}</th>
@@ -22,7 +30,7 @@
                 @if(wifiZones$|async; as wifiZones){
                     @for(wifiZone of wifiZones;track wifiZone.id;;let i=$index){
                         <tr class="dark:bg-gray-800 dark:border-gray-700" [ngClass]="i%2!==0?'bg-gray-100 border-b':'bg-white border-b'">
-                            <td class="px-6 py-4 primary-color">{{wifiZone.name}}</td>
+                            <td class="px-6 py-4 primary-color" (click)="updateWifiZone(wifiZone)">{{wifiZone.name}}</td>
                             <td class="px-6 py-4">{{wifiZone.city}}</td>
                             <td class="px-6 py-4">{{wifiZone.captive_gate}}</td>
                             <td class="px-6 py-4">{{wifiZone.is_active_sms}}</td>
@@ -31,7 +39,8 @@
                             <td class="px-6 py-4">{{wifiZone.created_at|date:'medium'}}</td>
                             
                             <td class="btn-action">
-                                
+                                <button  class="btn btn-primary btn-warning" (click)="updateWifiZone(wifiZone)"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-outline-primary btn-danger" (click)="deleteWifiZone(wifiZone)"><i class="fa fa-trash btn-danger"></i></button>
                             </td>
                         </tr>
                     }

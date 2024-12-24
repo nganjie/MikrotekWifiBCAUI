@@ -45,7 +45,19 @@
             />
           </div>
         </nav>
-
+        <div class="flex flex-row items-center right-1 align-items-center">
+          <button (click)="setEnLanguage()" [ngClass]="isLanguage('en')?'bg-gray-200':''" class="p-2 flex flex-row items-center border border-gray-300 text-sm font-medium text-gray-700 hover:bg-gray-100 focus:bg-gray-200 focus:outline-none"
+                      >
+                          <span class="text-md">En</span>
+                          <span class="ml-1"> <img src="https://img.icons8.com/?size=512&id=t3NE3BsOAQwq&format=png" class="w-5 h-5" /></span>
+                      </button>
+  
+          <button (click)="setFrLanguage()" [ngClass]="isLanguage('fr')?'bg-gray-200':''" class="p-2 flex flex-row items-center border border-gray-300 text-sm font-medium text-gray-700 hover:bg-gray-100 focus:bg-gray-200 focus:outline-none "
+                      >
+                          <span class="text-md">Fr</span>
+                           <span class="ml-1"> <img src="https://img.icons8.com/?size=100&id=YwnngGdMBmIV&format=png&color=000000" class="w-5 h-5" /></span>
+                      </button>
+      </div>
         <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
           <li
             class="nav-item topbar-icon dropdown hidden-caret d-flex d-lg-none"
@@ -361,6 +373,7 @@
                     </div>
                   </div>
                 </li>
+                
                 <li>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="#">My Profile</a>

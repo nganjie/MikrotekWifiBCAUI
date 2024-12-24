@@ -3,6 +3,7 @@ import { BehaviorSubject, Observable } from "rxjs";
 import { ErrorServer } from "../models/error-server.model";
 import { MatSnackBar, MatSnackBarConfig } from "@angular/material/snack-bar";
 import { User } from "../models/user.model";
+import { PaginateData } from "../models/paginate-data.model";
 
 
 
@@ -39,8 +40,20 @@ export class GlobalServices{
     get confirmSubmit$():Observable<boolean>{
         return this._confirmSubmit$.asObservable();
     }
+    explosePaginationOption(data:PaginateData):string{
+        let options=`per_page=${data.per_page}&page=${data.current_page}`;
+        return options;
+    }
     setConfirmSubmit(confirm:boolean){
         this._confirmSubmit$.next(true);
+    }
+    _paginateData$=new BehaviorSubject<PaginateData>({
+        current_page:1,
+        per_page:5,
+        total:1
+    })
+    get paginateData$():Observable<PaginateData>{
+        return this._paginateData$.asObservable();
     }
 
     exploseRoleArray(roles:string[]):string{
@@ -78,5 +91,17 @@ export class GlobalServices{
     setLoadStatus(loading:boolean){
         this._loading$.next(loading);
     }
+    setSnackMesage(message:string,color:string='btn-primary'){
+        let config = new MatSnackBarConfig();
+      config.duration=5000;
+      config.panelClass=[color]
+      this.snackBar.open(
+        message,
+        "Close",
+        config
+      );
+      console.log('popup modal')
+
+      }
     
 }

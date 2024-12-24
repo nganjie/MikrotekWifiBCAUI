@@ -1,0 +1,66 @@
+<div class=" justify-content-center">
+    <div class="modal-header">
+        <h5 class="modal-title">{{"Create"|translate}} {{"Wi-Fi zone"|translate}}</h5>
+        <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn-close"  aria-label="Close" (click)="dismiss()"></button>
+       <!-- @if(confirmSublit$|async){
+            @if(pakageWifiForm.valid)
+            {
+                <span>{{confirm()}}</span>
+            }
+            
+        }-->
+       
+    </div>
+    
+    <div class="body p-4">
+        @if(error$|async;as error){
+            <span class="text-danger">{{error.message}}</span>
+        }
+        <form [formGroup]="pakageWifiForm">
+            <!-- Name input -->
+            <div  class="form-outline mb-4">
+                <label class="form-label" for="designation">{{"designation"|translate}}</label>
+                <input type="text" id="designation" class="form-control" placeholder="EX:3H 100FR" formControlName="designation" />
+                @if(btnSubmit&&pakageWifiForm.invalid&&pakageWifiForm.get('designation')?.invalid)
+                    {
+                        <span class="text-danger">{{getFormControlErrorText(pakageWifiForm.get('designation'))}}</span>
+                    }
+            </div>
+            <div  class="form-outline mb-4">
+                <label class="form-label" for="description">{{"description"|translate}}</label>
+                <textarea class="form-control" id="description" class="form-control" formControlName="description"  rows="2">
+                </textarea>
+                @if(btnSubmit&&pakageWifiForm.invalid&&pakageWifiForm.get('description')?.invalid)
+                    {
+                        <span class="text-danger">{{getFormControlErrorText(pakageWifiForm.get('description'))}}</span>
+                    }
+            </div>
+            <div  class="form-outline mb-4">
+                <label class="form-label" for="wifi_zone">{{"wifi-zone"|translate}}</label>
+                <select class="form-select "  id="zone_wifi" aria-label=".form-select-lg example" formControlName="wifi_zone_id">
+                    @if(wifiZones$|async;as wifiZones){
+                        
+                        @for(wifiZone of wifiZones;track wifiZone.id){
+                            <option [value]="wifiZone.id" >{{wifiZone.name}}</option>
+                        }
+                }
+                  </select>
+                @if(btnSubmit&&pakageWifiForm.invalid&&pakageWifiForm.get('wifi_zone_id')?.invalid)
+                    {
+                        <span class="text-danger">{{getFormControlErrorText(pakageWifiForm.get('wifi_zone_id'))}}</span>
+                    }
+            </div>
+            <div  class="form-outline mb-4">
+                <label class="form-label" for="price">{{"price"|translate}}</label>
+                <input type="number" id="price" class="form-control" placeholder="EX:200" formControlName="price" />
+                @if(btnSubmit&&pakageWifiForm.invalid&&pakageWifiForm.get('price')?.invalid)
+                    {
+                        <span class="text-danger">{{getFormControlErrorText(pakageWifiForm.get('price'))}}</span>
+                    }
+            </div>
+        </form>
+        <div  class="form-outline mb-4">
+            <button type="submit" style="margin-top :25px;width: 100%;" class="btn btn-primary" (click)="submitForm()"> {{typeOperation|translate|titlecase}} </button>
+        </div>
+    </div>
+</div>

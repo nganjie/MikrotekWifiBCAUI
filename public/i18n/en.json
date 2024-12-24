@@ -1,6 +1,9 @@
 {
     "FirstName":"First Name",
     "Name":"Name",
+    "name":"Name",
+    "city":"City",
+    "DNS Adress":"DNS Adress",
     "LastName":"Last Name",
     "Create":"Create",
     "CreateU":"Create",
@@ -77,6 +80,9 @@
     "AccountDescription":"Account Description",
     "started_at":"Started at",
     "Report":"Report",
-    "Author":"Author"
+    "Author":"Author",
+    "Add WifiZone":"Add WifiZone",
+    "Wi-Fi zone":"Wi-Fi Zone",
+    "wallet":"Wallet"
 
 }

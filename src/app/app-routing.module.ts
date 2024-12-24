@@ -10,6 +10,7 @@ const routes: Routes = [
     children:[
       {path:'',component:DashboardMenuComponent},
      {path:'wifi-zones',loadChildren:()=>import('./wifi-zones/wifi-zones.module').then(m=>m.WifiZonesModule)},
+     {path:'pakage-wifis',loadChildren:()=>import('./pakage-wifi/pakage-wifi.module').then(m=>m.PakageWifiModule)},
      { path: '', redirectTo: '', pathMatch: 'full' },
     ]
   },

@@ -1,0 +1,74 @@
+<div class=" justify-content-center">
+    <div class="modal-header">
+        <h5 class="modal-title">{{"Create"|translate}} {{"Wi-Fi zone"|translate}}</h5>
+        <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn-close"  aria-label="Close" (click)="dismiss()"></button>
+       <!-- @if(confirmSublit$|async){
+            @if(wifiZoneForm.valid)
+            {
+                <span>{{confirm()}}</span>
+            }
+            
+        }-->
+       
+    </div>
+    
+    <div class="body p-4">
+        @if(error$|async;as error){
+            <span class="text-danger">{{error.message}}</span>
+        }
+        <form [formGroup]="wifiZoneForm">
+            <!-- Name input -->
+            <div  class="form-outline mb-4">
+                <label class="form-label" for="name">{{"name"|translate}}</label>
+                <input type="text" id="name" class="form-control" formControlName="name" />
+                @if(btnSubmit&&wifiZoneForm.invalid&&wifiZoneForm.get('name')?.invalid)
+                    {
+                        <span class="text-danger">{{getFormControlErrorText(wifiZoneForm.get('name'))}}</span>
+                    }
+            </div>
+            <div  class="form-outline mb-4">
+                <label class="form-label" for="city">{{"city"|translate}}</label>
+                <input type="text" id="city" class="form-control" formControlName="city" />
+                @if(btnSubmit&&wifiZoneForm.invalid&&wifiZoneForm.get('city')?.invalid)
+                    {
+                        <span class="text-danger">{{getFormControlErrorText(wifiZoneForm.get('city'))}}</span>
+                    }
+            </div>
+            <div  class="form-outline mb-4">
+                <label class="form-label" for="captive_gate">{{"DNS Adress"|translate}}</label>
+                <input type="text" id="captive_gate" class="form-control" formControlName="captive_gate" />
+                @if(btnSubmit&&wifiZoneForm.invalid&&wifiZoneForm.get('captive_gate')?.invalid)
+                    {
+                        <span class="text-danger">{{getFormControlErrorText(wifiZoneForm.get('captive_gate'))}}</span>
+                    }
+            </div>
+            <div  class="form-outline mb-4">
+                <label class="form-label" for="description">{{"description"|translate}}</label>
+                <textarea class="form-control" id="description" class="form-control" formControlName="description"  rows="5">
+                </textarea>
+                @if(btnSubmit&&wifiZoneForm.invalid&&wifiZoneForm.get('description')?.invalid)
+                    {
+                        <span class="text-danger">{{getFormControlErrorText(wifiZoneForm.get('description'))}}</span>
+                    }
+            </div>
+            <!--<div  class="form-outline mb-4">
+                <label class="form-label" for="image">{{"image"|translate}}</label>
+                <label for="images">
+                    <i class="fa-solid fa-upload"></i>
+                    <input type="file" style="display: none;" id="images"  (change)="uploadFile($event)"/>
+                </label>
+                @if(btnSubmit&&wifiZoneForm.invalid&&wifiZoneForm.get('image')?.invalid)
+                    {
+                        <span class="text-danger">{{getFormControlErrorText(wifiZoneForm.get('image'))}}</span>
+                    }
+            </div>-->
+            
+            
+            <!-- Submit button -->
+            <!--<button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block">Create</button>-->  
+        </form>
+        <div  class="form-outline mb-4">
+            <button type="submit" style="margin-top :25px;width: 100%;" class="btn btn-primary" (click)="submitForm()"> {{typeOperation|translate|titlecase}} </button>
+        </div>
+    </div>
+</div>
