@@ -19,7 +19,7 @@ export class PakageWifiService extends GlobalServices{
       super(https,snak)
     }
     _PakageWifis$=new BehaviorSubject<PakageWifiDetail[]>([]);
-    get PakageWifis$():Observable<PakageWifiDetail[]>{
+    get pakageWifis$():Observable<PakageWifiDetail[]>{
       return this._PakageWifis$.asObservable();
     }
     getPakageWifisFormServer(paginateD:PaginateData){
@@ -70,6 +70,21 @@ export class PakageWifiService extends GlobalServices{
         })
       ).subscribe()
     }
+      deletePakageWifi(id:string){
+        const headers=this.getHearder();
+        this.http.delete<DataServerSingleton<PakageWifiDetail>>(`${environment.apiUrlFirst}/admin/pakage-wifi/${id}/delete`,headers).pipe(
+          tap(data=>{
+            if(data.success){
+              console.log(data)
+            this.setSnackMesage('pakage-Wifi Deleted successfully')
+             this.setLoadStatus(true)
+             this.setConfirmSubmit(true)
+          }else{
+              this._error$.next({status:false,message:data.error})
+          }
+          })
+        ).subscribe()
+      }
     getPakageWifiDetail(wifi_zone_id:string):Observable<PakageWifiDetail>{
       const headers=this.getHearder();
       return this.http.get<DataServerSingleton<PakageWifiDetail>>(`${environment.apiUrlFirst}/admin/pakage-wifi/${wifi_zone_id}/details`,headers).pipe(

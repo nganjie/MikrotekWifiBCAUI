@@ -11,6 +11,8 @@ const routes: Routes = [
       {path:'',component:DashboardMenuComponent},
      {path:'wifi-zones',loadChildren:()=>import('./wifi-zones/wifi-zones.module').then(m=>m.WifiZonesModule)},
      {path:'pakage-wifis',loadChildren:()=>import('./pakage-wifi/pakage-wifi.module').then(m=>m.PakageWifiModule)},
+     {path:'ticket-wifis',loadChildren:()=>import('./ticket-wifi/ticket-wifi.module').then(m=>m.TicketWifiModule)},
+     {path:'transactions',loadChildren:()=>import('./transaction/transaction.module').then(m=>m.TransactionModule)},
      { path: '', redirectTo: '', pathMatch: 'full' },
     ]
   },

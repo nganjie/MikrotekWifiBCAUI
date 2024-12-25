@@ -3,17 +3,18 @@ import { PageEvent } from '@angular/material/paginator';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { PaginateData } from '../../../models/paginate-data.model';
-import { PakageWifiDetail } from '../../models/pakage-wifi-detail.model';
-import { PakageWifiService } from '../../services/pakage-wifi.service';
-import { CreatePakageWifiComponent } from '../create-pakage-wifi/create-pakage-wifi.component';
+import { LanguageService } from '../../../services/language/language.service';
+import { TicketWifiDetail } from '../../models/ticket-wifi-detail.model';
+import { TicketWifiService } from '../../service/ticket-wifi.service';
+import { ImportTicketWifiComponent } from '../import-ticket-wifi/import-ticket-wifi.component';
 
 @Component({
-  selector: 'app-list-pakage-wifi',
-  templateUrl: './list-pakage-wifi.component.html',
-  styleUrl: './list-pakage-wifi.component.css'
+  selector: 'app-list-ticket-wifi',
+  templateUrl: './list-ticket-wifi.component.html',
+  styleUrl: './list-ticket-wifi.component.css'
 })
-export class ListPakageWifiComponent implements OnInit{
-  PakageWifis$!:Observable<PakageWifiDetail[]>;
+export class ListTicketWifiComponent implements OnInit{
+   ticketWifis$!:Observable<TicketWifiDetail[]>;
     loading$!:Observable<boolean>;
     itemsPerPage: number = 2;
     paginateData$!:Observable<PaginateData>;
@@ -23,10 +24,10 @@ export class ListPakageWifiComponent implements OnInit{
     pageArray:number[]=[]
     itemsPerPage$=new BehaviorSubject<number>(this.itemsPerPage)
     page$ =new BehaviorSubject<number>(1);
-    constructor(private pakageWifiService:PakageWifiService,private modalService:NgbModal){}
+    constructor(private languageService:LanguageService,private ticketWifiService:TicketWifiService,private modalService:NgbModal){}
     ngOnInit(): void {
-      this.loading$=this.pakageWifiService.loading$;
-      this.paginateData$=this.pakageWifiService.paginateData$
+      this.loading$=this.ticketWifiService.loading$;
+      this.paginateData$=this.ticketWifiService.paginateData$
       this.paginateData$.subscribe(
         data=>{
           this.paginateData=data;
@@ -36,11 +37,11 @@ export class ListPakageWifiComponent implements OnInit{
   
         }
       );
-      this.PakageWifis$=this.pakageWifiService.pakageWifis$;
-      this.pakageWifiService.getPakageWifisFormServer({current_page:1,per_page:this.itemsPerPage});
+      this.ticketWifis$=this.ticketWifiService.ticketWifis$;
+      this.ticketWifiService.getticketWifisFormServer({current_page:1,per_page:this.itemsPerPage});
     }
-    createPakageWifi() {
-      const modalRef =this.modalService.open(CreatePakageWifiComponent,{
+    createticketWifi() {
+      const modalRef =this.modalService.open(ImportTicketWifiComponent,{
         centered:true,
         backdrop:'static',
       });
@@ -49,38 +50,21 @@ export class ListPakageWifiComponent implements OnInit{
       reloadPgae.subscribe(
         (b)=>{
           if(b){
-            this.pakageWifiService.getPakageWifisFormServer(this.paginateData)
+            this.ticketWifiService.getticketWifisFormServer(this.paginateData)
           }
         }
       )
     }
-    updatePakageWifi(PakageWifi:PakageWifiDetail) {
-      const modalRef =this.modalService.open(CreatePakageWifiComponent,{
-        centered:true,
-        backdrop:'static',
-      });
-      var reloadPgae:Observable<boolean>;
-      reloadPgae=modalRef.componentInstance.realod;
-      modalRef.componentInstance.typeOperation='update'
-      modalRef.componentInstance.pakage_wifi_id=PakageWifi.id;
-      reloadPgae.subscribe(
-        (b)=>{
-          if(b){
-            this.pakageWifiService.getPakageWifisFormServer(this.paginateData)
-          }
-        }
-      )
+    deleteticketWifi(ticketWifi:TicketWifiDetail){
+      this.ticketWifiService.deleteticketWifi(ticketWifi.id);
     }
-    deletePakageWifi(pakageWifi:PakageWifiDetail){
-        this.pakageWifiService.deletePakageWifi(pakageWifi.id);
-      }
     pageChange(event:PageEvent):PageEvent {
       //if(event.pageSize!=this.itemsPerPage){}
       //this.itemsPerPage=event.pageSize;
       //this.itemsPerPage$.next(this.itemsPerPage)
       this.paginateData.current_page=event.pageIndex+1
       this.paginateData.per_page=event.pageSize;
-      this.pakageWifiService.getPakageWifisFormServer(this.paginateData)
+      this.ticketWifiService.getticketWifisFormServer(this.paginateData)
       console.log(this.paginateData)
       return event;
     }
@@ -116,4 +100,5 @@ export class ListPakageWifiComponent implements OnInit{
       console.log(arr);
       this.pageArray=arr;
     }
+  
 }

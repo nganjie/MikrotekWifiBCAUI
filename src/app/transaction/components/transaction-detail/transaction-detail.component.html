@@ -1,0 +1,112 @@
+
+<div class=" justify-content-center">
+    <div class="modal-header">
+        <h5 class="modal-title">Detail {{"transaction"|translate}}</h5>
+        <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn-close"  aria-label="Close" (click)="dismiss()"></button>
+       
+    </div>
+    <div class="bg-white overflow-hidden shadow rounded-lg border">
+      <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
+        @if(transaction$|async;as transaction){
+            <div class="flex">
+                <div class="w-1/2">
+                    <div class="detail-info-div">
+                        <p>
+                          {{"reicever"|translate}}: 
+                        </p>
+                        <p >
+                          {{transaction.receiver_number}}
+                        </p>
+                    </div>
+                    <div class="detail-info-div">
+                      <p>
+                        {{"type"|translate}}: 
+                      </p>
+                      <p >
+                        {{transaction.type}}
+                      </p>
+                  </div>
+                  <div class="detail-info-div">
+                    <p>
+                        {{"price"|translate}}: 
+                    </p>
+                    <p >
+                      {{transaction.price}}
+                    </p>
+                </div>
+                <div class="detail-info-div">
+                  <p>
+                    {{"net price"|translate}}: 
+                  </p>
+                  <p >
+                    {{transaction.net_price}}
+                  </p>
+              </div>
+              <div class="detail-info-div">
+                <p>
+                  {{"status"|translate}}: 
+                </p>
+                <p >
+                  {{transaction.status}}
+                </p>
+              </div>
+                </div>
+                <div class="w-1/2">
+                    <div class="detail-info-div">
+                        <p>
+                          {{"wi-fi zone"|translate}}: 
+                        </p>
+                        <p >
+                          {{transaction.ticket_wifi.pakage_wifi.zone_wifis.name}}
+                        </p>
+                        </div>
+                        <div class="detail-info-div">
+                        <p>
+                        {{"pakage-wifi"|translate}}: 
+                        </p>
+                        <p >
+                        {{transaction.ticket_wifi.pakage_wifi.designation}}
+                        </p>
+                        </div>
+                        <div class="detail-info-div">
+                        <p>
+                        {{"ticket"|translate}}: 
+                        </p>
+                        <p >
+                        {{transaction.ticket_wifi.username}}
+                        </p>
+                        </div>
+                        <div class="detail-info-div">
+                        <p>
+                        {{"Created_at"|translate}}: 
+                        </p>
+                        <p >
+                        {{transaction.created_at|date:'medium'}}
+                        </p>
+                        </div>
+                        <div class="detail-info-div">
+                        <p>
+                        {{"is_collected"|translate}}: 
+                        </p>
+                        <p >
+                        {{transaction.is_collected}}
+                        </p>
+                        </div>
+                        <div class="detail-info-div">
+                        <p>
+                        {{"operation reference"|translate}}: 
+                        </p>
+                        <p >
+                        {{transaction.operation_reference}}
+                        </p>
+                        </div>
+                </div>
+            </div>
+          
+  
+        }
+          
+      </div>
+  </div>
+    </div>
+  

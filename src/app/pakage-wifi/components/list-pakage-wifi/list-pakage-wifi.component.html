@@ -1,7 +1,7 @@
 <div>
     <div class="flex mb-20 mt-10">
         <div class="w-1/2">
-            <h1>{{"Pakage Wi-Fi"|translate}}</h1>
+            <h1>{{"pakage WI-FI"|translate}}</h1>
         </div>
         <div class="w-1/2">
             <button  class="btn btn-primary btn-round" (click)="createPakageWifi()">{{"Add Pakage Wi-fi"|translate}}</button>
@@ -36,6 +36,7 @@
                             
                             <td class="btn-action">
                                 <button  class="btn btn-primary btn-warning" (click)="updatePakageWifi(pakageWifi)"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-outline-primary btn-danger" (click)="deletePakageWifi(pakageWifi)"><i class="fa fa-trash btn-danger"></i></button>
                             </td>
                         </tr>
                     }

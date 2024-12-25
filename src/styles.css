@@ -6,3 +6,14 @@
 .primary-color{
     color:#1AB394
    }
+   .btn-action button{
+    margin-left: 2px;
+  }
+  .detail-info-div{
+    display: flex;
+    flex-direction: row;
+  }
+  .detail-info-div >p:last-child{
+    margin-left: 10px;
+    color:#1AB394
+  }
