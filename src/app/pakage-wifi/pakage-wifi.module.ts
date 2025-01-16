@@ -10,6 +10,7 @@ import { createTranslateLoader } from '../app.module';
 import { SharedModule } from '../shared/shared.module';
 import { LanguageService } from '../services/language/language.service';
 import { CreatePakageWifiComponent } from './components/create-pakage-wifi/create-pakage-wifi.component';
+import { PakageWifiService } from './services/pakage-wifi.service';
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import { CreatePakageWifiComponent } from './components/create-pakage-wifi/creat
   ],
   providers:[
     LanguageService,
+    PakageWifiService
   ]
 })
 export class PakageWifiModule { }

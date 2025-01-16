@@ -30,6 +30,7 @@ export class TransactionService extends GlobalServices{
       map(dataServer=>{
         console.log(dataServer);
         this._transactions$.next(dataServer.data?.data??[])
+        this.setLoadStatus(false)
         this._paginateData$.next({
           current_page:dataServer.data?.current_page??1,
           per_page:dataServer.data?.per_page??1,

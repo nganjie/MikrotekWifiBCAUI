@@ -16,6 +16,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { createTranslateLoader } from '../app.module';
 import { SharedModule } from '../shared/shared.module';
 import { LanguageService } from '../services/language/language.service';
+import { CurrentUserDetailComponent } from './components/current-user-detail/current-user-detail.component';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { LanguageService } from '../services/language/language.service';
     DashboardMenuComponent,
     SidebarLeftComponent,
     SidebarTopComponent,
-    LoginComponent
+    LoginComponent,
+    CurrentUserDetailComponent
   ],
   imports: [
     CommonModule,
@@ -42,7 +44,7 @@ import { LanguageService } from '../services/language/language.service';
   exports:[
     DashboardMenuComponent,
     SidebarTopComponent,
-    LoginComponent
+    LoginComponent,
   ],
   providers:[
     LanguageService

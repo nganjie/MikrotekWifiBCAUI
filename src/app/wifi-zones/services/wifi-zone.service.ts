@@ -9,6 +9,7 @@ import { DataServer, DataServerPaginate, DataServerSingleton } from '../../model
 import { environment } from '../../../environments/environment';
 import { PaginateData } from '../../models/paginate-data.model';
 import { FormGroup } from '@angular/forms';
+import { PakageWifiDetail } from '../../pakage-wifi/models/pakage-wifi-detail.model';
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +31,7 @@ export class WifiZoneService extends GlobalServices{
       map(dataServer=>{
         console.log(dataServer);
         this._wifiZones$.next(dataServer.data?.data??[])
+        this.setLoadStatus(false)
         this._paginateData$.next({
           current_page:dataServer.data?.current_page??1,
           per_page:dataServer.data?.per_page??1,
@@ -38,6 +40,12 @@ export class WifiZoneService extends GlobalServices{
       })
     ).subscribe()
   }
+  getPakageWifisFormServer(id:string):Observable<PakageWifiDetail[]>{
+        const headers=this.getHearder();
+       return  this.http.get<DataServerSingleton<PakageWifiDetail[]>>(`${environment.apiUrlFirst}/admin/pakage-wifi/${id}/pakage-wifis`,headers).pipe(
+          map(data=>data.data)
+        )
+      }
   createWifiZone(form:FormGroup) {
 
     this.http.post<DataServerSingleton<any>>(`${environment.apiUrlFirst}/admin/wifi-zone/create`,form.value,this.headers).pipe(

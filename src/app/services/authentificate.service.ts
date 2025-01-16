@@ -43,6 +43,7 @@ export class AuthentificateService extends GlobalServices{
                 localStorage.setItem("currentUser",JSON.stringify(dataServer.data))
                 localStorage.setItem('appToken',dataServer.message)
                 this.router.navigateByUrl('/admin/wifi-zones');
+                
 
             }else{
                 this.setLoginStatus(true)

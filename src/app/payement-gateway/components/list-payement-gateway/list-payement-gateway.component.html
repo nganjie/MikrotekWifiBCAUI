@@ -1,0 +1,58 @@
+<div>
+    <div class="flex mb-20 mt-10">
+        <div class="w-1/2">
+            <h1>{{"payement Gateway"|translate}}</h1>
+        </div>
+        <div class="w-1/2">
+            <button  class="btn btn-primary btn-round" (click)="createpayementGateway()">{{"Add Payement Gateway"|translate}}</button>
+        </div>
+    </div>
+    
+    <div>
+        @if(loading$|async){
+            <mat-spinner></mat-spinner>
+        }
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400" >
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr >
+                    
+                    <th scope="col" class="px-6 py-3">{{"site id"|translate}}</th>
+                    <th scope="col" class="px-6 py-3">{{"secret key"|translate}}</th>
+                    <th scope="col" class="px-6 py-3">{{"api key"|translate}}</th>
+                    <th scope="col" class="px-6 py-3">{{"url"|translate}}</th>
+                    <th scope="col" class="px-6 py-3">{{"create at"|translate}}</th>
+                    <th scope="col" class="px-6 py-3">Actions</th>
+                    
+                    
+                </tr>
+            </thead>
+            
+            <tbody>
+                @if(payementGateways$|async; as payementGateways){
+                    @for(payementGateway of payementGateways;track payementGateway.id;;let i=$index){
+                        <tr class="dark:bg-gray-800 dark:border-gray-700" [ngClass]="i%2!==0?'bg-gray-100 border-b':'bg-white border-b'">
+                            <td class="px-6 py-4 primary-color" (click)="updatepayementGateway(payementGateway)">{{payementGateway.site_id}}</td>
+                            <td class="px-6 py-4">{{payementGateway.secret_key}}</td>
+                            <td class="px-6 py-4">{{payementGateway.api_key}}</td>
+                            <td class="px-6 py-4">{{payementGateway.url}}</td>
+                            <td class="px-6 py-4">{{payementGateway.created_at|date:'medium'}}</td>
+                            
+                            <td class="btn-action">
+                                <button  class="btn btn-primary btn-warning" (click)="updatepayementGateway(payementGateway)"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-outline-primary btn-danger" (click)="deletepayementGateway(payementGateway)"><i class="fa fa-trash btn-danger"></i></button>
+                            </td>
+                        </tr>
+                    }
+                }
+                    
+            
+            </tbody>
+        </table>
+        <mat-paginator #paginator [length]="totaElement" (page)="pageEvent=pageChange($event)"
+        [pageSize]="itemsPerPage"
+       [pageSizeOptions]="pageArray"
+       
+       aria-label="Select page">
+       </mat-paginator>
+    </div>
+</div>

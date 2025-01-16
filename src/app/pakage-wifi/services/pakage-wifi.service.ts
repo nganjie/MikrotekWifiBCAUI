@@ -9,15 +9,77 @@ import { environment } from '../../../environments/environment';
 import { DataServerPaginate, DataServerSingleton } from '../../models/data-server.model';
 import { PaginateData } from '../../models/paginate-data.model';
 import { PakageWifiDetail } from '../models/pakage-wifi-detail.model';
+import Pusher from 'pusher-js';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PakageWifiService extends GlobalServices{
-
+  private pusher!: Pusher;
   constructor(private https:HttpClient,private snak :MatSnackBar,private router:Router){
       super(https,snak)
+
+      this.pusher = new Pusher('bf5e228232638611c6c0', {
+        cluster: 'eu', // Remplacez par votre cluster Pusher
+      });
+      
+     /* this.echo.connector.socket.on('connect', () => {
+        console.log('CONNECTED');
+    });
+
+    this.echo.connector.socket.on('reconnecting', () => {
+        console.log('CONNECTING');
+    });
+
+    this.echo.connector.socket.on('disconnect', () => {
+        console.log('DISCONNECTED');
+    });
+
+    this.echo.connector.socket.on('test.sent', (data:any) => {
+       console.log('1', data);
+    });
+
+    this.echo.connector.socket.on('test.sent', (data:any) => {
+        console.log('2', data);
+    });
+
+    this.echo.connector.socket.on('test.sent', (data:any) => {
+        console.log('3', data);
+    });
+
+    this.echo.join('chan-demo').joining((data:any) => {
+        console.log('joining', data);
+    }).leaving((data:any) => {
+        console.log('leaving', data);
+    });*/
+
+    /*this.echo.join('test2').joining((data:any) => {
+        console.log('joining', data);
+    }).leaving((data:any) => {
+        console.log('leaving', data);
+    });
+
+    this.echo.channel('test').listen('.message.sent', (data:any) => {
+        console.log('From laravel echo: ', data);
+    });*/
+    /*this.echo.channel('chan-demo').listen('.test.sent', (data:any) => {
+        console.log('From laravel echo: ', data);
+    });*/
     }
+    listen(channel: string, event: string, callback: (data: any) => void): void {
+      const pusherChannel = this.pusher.subscribe(channel);
+      pusherChannel.bind(event, (data: any) => {
+        callback(data);
+      });
+    }
+  
+    /**
+     * Déconnecter Pusher
+     */
+    disconnect(): void {
+      this.pusher.disconnect();
+    }
+  
     _PakageWifis$=new BehaviorSubject<PakageWifiDetail[]>([]);
     get pakageWifis$():Observable<PakageWifiDetail[]>{
       return this._PakageWifis$.asObservable();
@@ -30,6 +92,7 @@ export class PakageWifiService extends GlobalServices{
         map(dataServer=>{
           console.log(dataServer);
           this._PakageWifis$.next(dataServer.data?.data??[])
+          this.setLoadStatus(false)
           this._paginateData$.next({
             current_page:dataServer.data?.current_page??1,
             per_page:dataServer.data?.per_page??1,

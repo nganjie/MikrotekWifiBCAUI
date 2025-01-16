@@ -2,6 +2,7 @@ import { RolesEnum } from "../emuns/roles.enum";
 import { RoutesEnum } from "../emuns/routes.enum";
 import { MetaDataServer } from "./meta-data.enum";
 import { PaginationDetail } from "./pagination-detail.model";
+import { User } from "./user.model";
 
 export interface DataServer<T=any> {
     data?: {data:T,meta:MetaDataServer};
@@ -18,59 +19,20 @@ export interface DataServer<T=any> {
     error: string;
   }
   export interface DataServerSingleton<T=any>{
-    data?:T;
-    message?: any;
+    data:T;
+    message: any;
     success: boolean;
     error_code: number;
     error: string;
   }
-  export const OrganisationRouteRole:RolesEnum[]=[
-    RolesEnum.BcaAdmin,
-    RolesEnum.OrganizationAdmin,
-    RolesEnum.OrganizationClient,
-    RolesEnum.OrganizationOperator,
-    RolesEnum.OrganizationOperatorManager,
-  ];
-  export const UsersRouteRole:RolesEnum[]=[
-    RolesEnum.BcaAdmin,
-    RolesEnum.OrganizationAdmin,
-    RolesEnum.OrganizationClient,
-    RolesEnum.OrganizationOperator,
-    RolesEnum.OrganizationOperatorManager,
-  ];
-  export const EmployeesRouteRole:RolesEnum[]=[
-    RolesEnum.OrganizationAdmin,
-    RolesEnum.OrganizationClient,
-    RolesEnum.OrganizationOperator,
-    RolesEnum.OrganizationOperatorManager,
-  ];
-  export const CashTransactionRouteRole:RolesEnum[]=[
-    RolesEnum.OrganizationAdmin,
-    RolesEnum.OrganizationClient,
-    RolesEnum.OrganizationOperator,
-    RolesEnum.OrganizationOperatorManager,
-  ];
-  export const TransactionRouteRole:RolesEnum[]=[
-    RolesEnum.OrganizationAdmin,
-    RolesEnum.OrganizationClient,
-    RolesEnum.OrganizationOperator,
-    RolesEnum.OrganizationOperatorManager,
-  ];
-  export const BrancheRouteRole:RolesEnum[]=[
-    RolesEnum.OrganizationAdmin,
-    RolesEnum.OrganizationClient,
-    RolesEnum.OrganizationOperator,
-    RolesEnum.OrganizationOperatorManager,
-  ];
-  export const RoleRouteRole:RolesEnum[]=[
-    RolesEnum.BcaAdmin
-  ];
-  export const ClientsRouteRole:RolesEnum[]=[
-    RolesEnum.OrganizationAdmin,
-    RolesEnum.OrganizationClient,
-    RolesEnum.OrganizationOperator,
-    RolesEnum.OrganizationOperatorManager,
-  ];
+
+  export function CurrentUser():User{
+    var data =localStorage.getItem('currentUser');
+    var stringData =JSON.stringify(data);
+    var jsonDataPrimary =JSON.parse(stringData)
+    var jsonData =JSON.parse(jsonDataPrimary)
+    return jsonData as User;
+  };
   export function LogOut(){
     localStorage.removeItem("appToken")
     localStorage.removeItem("currentUser")

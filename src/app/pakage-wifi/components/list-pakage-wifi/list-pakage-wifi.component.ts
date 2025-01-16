@@ -38,6 +38,14 @@ export class ListPakageWifiComponent implements OnInit{
       );
       this.PakageWifis$=this.pakageWifiService.pakageWifis$;
       this.pakageWifiService.getPakageWifisFormServer({current_page:1,per_page:this.itemsPerPage});
+      this.pakageWifiService.listen('chan-demo', 'test.sent', (data) => {
+        console.log('Notification reçue :', data);
+        //this.notifications.push(data);
+      });
+      this.pakageWifiService.listen('user', 'transaction.sent', (data) => {
+        console.log('Notification reçue :', data);
+        //this.notifications.push(data);
+      });
     }
     createPakageWifi() {
       const modalRef =this.modalService.open(CreatePakageWifiComponent,{

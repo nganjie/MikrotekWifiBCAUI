@@ -1,0 +1,92 @@
+<div class=" justify-content-center">
+    <div class="modal-header">
+        <h5 class="modal-title">Detail {{"CurrentUser"|translate}}</h5>
+        <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn-close"  aria-label="Close" (click)="dismiss()"></button>
+       <!-- @if(confirmSublit$|async){
+            @if(employeeForm.valid)
+            {
+                <span>{{confirm()}}</span>
+            }
+            
+        }-->
+       
+    </div>
+    <div class="bg-white overflow-hidden shadow rounded-lg border">
+      <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
+        <div class="detail-info-div">
+            <p>
+              {{"FirstName"|translate}}: 
+            </p>
+            <p >
+              {{currentUser?.first_name}}
+            </p>
+        </div>
+        <div class="detail-info-div">
+          <p>
+            {{"LastName"|translate}}: 
+          </p>
+          <p >
+            {{currentUser?.last_name}}
+          </p>
+      </div>
+      <div class="detail-info-div">
+        <p>
+          Email: 
+        </p>
+        <p >
+          {{currentUser?.email}}
+        </p>
+    </div>
+    <div class="detail-info-div">
+      <p>
+        {{"Phone"|translate}}: 
+      </p>
+      <p >
+        {{currentUser?.number}}
+      </p>
+  </div>
+  <div class="detail-info-div">
+    <p>
+      {{"is activate"|translate}}: 
+    </p>
+    <p >
+      {{currentUser?.is_activate}}
+    </p>
+  </div>
+  <div class="detail-info-div">
+  <p>
+    {{"city"|translate}}: 
+  </p>
+  <p >
+    {{currentUser?.city}}
+  </p>
+  </div>
+  <div class="detail-info-div">
+  <p>
+  {{"state"|translate}}: 
+  </p>
+  <p >
+  {{currentUser?.state}}
+  </p>
+  </div>
+  <div class="detail-info-div">
+  <p>
+  {{"Contry"|translate}}: 
+  </p>
+  <p >
+  {{currentUser?.country}}
+  </p>
+  </div>
+  <div class="detail-info-div">
+  <p>
+  {{"Created_at"|translate}}:  
+  </p>
+  <p >
+  {{currentUser?.created_at|date:'medium'}}
+  </p>
+  </div>
+          
+      </div>
+  </div>
+    </div>
+  

@@ -6,6 +6,9 @@
 .primary-color{
     color:#1AB394
    }
+   .mat-mdc-snack-bar-container .mdc-snackbar__surface {
+    background-color: transparent !important;
+}
    .btn-action button{
     margin-left: 2px;
   }
@@ -16,4 +19,8 @@
   .detail-info-div >p:last-child{
     margin-left: 10px;
     color:#1AB394
+  }
+  .red-snackbar {
+    background-color: red;
+    color: red;
   }

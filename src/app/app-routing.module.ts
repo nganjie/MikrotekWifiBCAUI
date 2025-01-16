@@ -13,6 +13,8 @@ const routes: Routes = [
      {path:'pakage-wifis',loadChildren:()=>import('./pakage-wifi/pakage-wifi.module').then(m=>m.PakageWifiModule)},
      {path:'ticket-wifis',loadChildren:()=>import('./ticket-wifi/ticket-wifi.module').then(m=>m.TicketWifiModule)},
      {path:'transactions',loadChildren:()=>import('./transaction/transaction.module').then(m=>m.TransactionModule)},
+     {path:'subscriptions',loadChildren:()=>import('./subscription-user/subscription-user.module').then(m=>m.SubscriptionUserModule)},
+     {path:'payement-gateways',loadChildren:()=>import('./payement-gateway/payement-gateway.module').then(m=>m.PayementGatewayModule)},
      { path: '', redirectTo: '', pathMatch: 'full' },
     ]
   },
