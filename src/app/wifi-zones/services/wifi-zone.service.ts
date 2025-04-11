@@ -5,7 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { BehaviorSubject, map, Observable, tap } from 'rxjs';
 import { WifiZoneDetail } from '../models/wifi-zone-detail.model';
-import { DataServer, DataServerPaginate, DataServerSingleton } from '../../models/data-server.model';
+import { DataServer, ApiPaginatedResponse, ApiResponse } from '../../models/data-server.model';
 import { environment } from '../../../environments/environment';
 import { PaginateData } from '../../models/paginate-data.model';
 import { FormGroup } from '@angular/forms';
@@ -27,7 +27,7 @@ export class WifiZoneService extends GlobalServices{
     const headers=this.getHearder();
     this.setLoadStatus(true)
    let pagin =this.explosePaginationOption(paginateD);
-    this.http.get<DataServerPaginate<WifiZoneDetail>>(`${environment.apiUrlFirst}/admin/wifi-zone/all?${pagin}`,headers).pipe(
+    this.http.get<ApiPaginatedResponse<WifiZoneDetail>>(`${environment.apiUrlFirst}/admin/wifi-zone/all?${pagin}`,headers).pipe(
       map(dataServer=>{
         console.log(dataServer);
         this._wifiZones$.next(dataServer.data?.data??[])
@@ -40,15 +40,26 @@ export class WifiZoneService extends GlobalServices{
       })
     ).subscribe()
   }
+  getWifiZonesFullFormServer(){
+    const headers=this.getHearder();
+    this.setLoadStatus(true)
+    this.http.get<ApiResponse<WifiZoneDetail[]>>(`${environment.apiUrlFirst}/admin/wifi-zone/full-all?`,headers).pipe(
+      map(dataServer=>{
+        console.log(dataServer);
+        this._wifiZones$.next(dataServer.data??[])
+        this.setLoadStatus(false)
+      })
+    ).subscribe()
+  }
   getPakageWifisFormServer(id:string):Observable<PakageWifiDetail[]>{
         const headers=this.getHearder();
-       return  this.http.get<DataServerSingleton<PakageWifiDetail[]>>(`${environment.apiUrlFirst}/admin/pakage-wifi/${id}/pakage-wifis`,headers).pipe(
+       return  this.http.get<ApiResponse<PakageWifiDetail[]>>(`${environment.apiUrlFirst}/admin/pakage-wifi/${id}/pakage-wifis`,headers).pipe(
           map(data=>data.data)
         )
       }
   createWifiZone(form:FormGroup) {
 
-    this.http.post<DataServerSingleton<any>>(`${environment.apiUrlFirst}/admin/wifi-zone/create`,form.value,this.headers).pipe(
+    this.http.post<ApiResponse<any>>(`${environment.apiUrlFirst}/admin/wifi-zone/create`,form.value,this.headers).pipe(
         tap(data=>{
             console.log(data)
             if(data.success){
@@ -65,7 +76,7 @@ export class WifiZoneService extends GlobalServices{
   }
   updateWifiZone(form:FormGroup,wifi_zone_id:string){
     const headers=this.getHearder();
-    this.http.put<DataServerSingleton<WifiZoneDetail>>(`${environment.apiUrlFirst}/admin/wifi-zone/${wifi_zone_id}/update`,form.value,headers).pipe(
+    this.http.put<ApiResponse<WifiZoneDetail>>(`${environment.apiUrlFirst}/admin/wifi-zone/${wifi_zone_id}/update`,form.value,headers).pipe(
       tap(data=>{
         if(data.success){
           console.log(data)
@@ -80,7 +91,7 @@ export class WifiZoneService extends GlobalServices{
   }
   deleteWifiZone(wifi_zone_id:string){
     const headers=this.getHearder();
-    this.http.delete<DataServerSingleton<WifiZoneDetail>>(`${environment.apiUrlFirst}/admin/wifi-zone/${wifi_zone_id}/delete`,headers).pipe(
+    this.http.delete<ApiResponse<WifiZoneDetail>>(`${environment.apiUrlFirst}/admin/wifi-zone/${wifi_zone_id}/delete`,headers).pipe(
       tap(data=>{
         if(data.success){
           console.log(data)
@@ -95,7 +106,7 @@ export class WifiZoneService extends GlobalServices{
   }
   getWifiZoneDetail(wifi_zone_id:string):Observable<WifiZoneDetail>{
     const headers=this.getHearder();
-    return this.http.get<DataServerSingleton<WifiZoneDetail>>(`${environment.apiUrlFirst}/admin/wifi-zone/${wifi_zone_id}/detail`,headers).pipe(
+    return this.http.get<ApiResponse<WifiZoneDetail>>(`${environment.apiUrlFirst}/admin/wifi-zone/${wifi_zone_id}/detail`,headers).pipe(
       map(data=>data.data as WifiZoneDetail)
     )
   }

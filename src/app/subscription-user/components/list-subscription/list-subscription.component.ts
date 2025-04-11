@@ -62,6 +62,10 @@ export class ListSubscriptionComponent implements OnInit{
       this.pakages$=this.pakageService.pakages$;
       this.pakageService.getPakagesFormServer();
     }
+    isEntityCheck(event:any){
+      console.log(event.target.value);
+      this.pakageService.updatepakageUserMessage(event.target.value)
+    }
     choicePakage(id:string){
       this.pakageService.choicePakage(id);
     }

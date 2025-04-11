@@ -1,55 +1,109 @@
 <div>
+    <h1>{{"transactions"|translate}}</h1>
     <div class="flex mb-20 mt-10">
-        <div class="w-1/2">
-            <h1>{{"transactions"|translate}}</h1>
-        </div>
+        <div class="col-lg-1 mr-2" >
+            <label for="client_id" >{{"WifiZone"|translate}}: </label>
+            <select class="form-select" name="client_id" id="client_id" [formControl]="zoneWifiCtrl">
+    
+              <option [value]="null">______</option>
+              @if(wifiZones$|async;as wifiZones){
+              @for(item of wifiZones;track $index){
+              <option [value]="item.id">{{item.name}}</option>
+              }@empty {
+              <option>empty data</option>
+              }
+              }
+    
+    
+            </select>
+          </div>
+          <div class="col-lg-1 mr-2" >
+            <label for="client_id" >{{"PakageWifi"|translate}}: </label>
+            <select class="form-select" name="client_id" id="client_id" [formControl]="pakageWifiCtrl">
+    
+              <option [value]="null">______</option>
+              @if(pakageWifis$|async;as pakageWifi){
+              @for(item of pakageWifi;track $index){
+              <option [value]="item.id">{{item.designation}}</option>
+              }@empty {
+              <option>empty data</option>
+              }
+              }
+    
+    
+            </select>
+          </div>
+        <div class="flex mr-2">
+            <label for="day_intervale">{{"period"|translate}}: </label>
+            <select class="form-select mb-4" name="day_intervale" id="day_intervale" [formControl]="periodCtrl">
+              <option [value]="null">______</option>
+              @for(data of dataPeriod;track data){
+              <option [value]="data">{{data|translate}}</option>
+              }
+            </select>
+            @if(isCustomPeriod){
+            <div class="d-flex">
+              <div class="input-div mr-2">
+                <label for="start_date" style="margin-right: 10px;">{{"StartDate"|translate}}: </label>
+                <input type="date" id="start_date" class="rounded form-control" [formControl]="startCtrl" />
+              </div>
+              <div class="input-div mr-2">
+                <label for="end_date" style="margin-right: 10px;">{{"EndDate"|translate}}: </label>
+                <input type="date" id="end_date" class="rounded form-control" [formControl]="endCtrl" />
+              </div>
+            </div>
+            }
+          </div>
     </div>
     
     <div>
         @if(loading$|async){
             <mat-spinner></mat-spinner>
         }
-        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400" >
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr >
-                    
-                    <th scope="col" class="px-6 py-3">{{"reicever"|translate}}</th>
-                    <th scope="col" class="px-6 py-3">{{"type"|translate}}</th>
-                    <th scope="col" class="px-6 py-3">{{"price"|translate}}</th>
-                    <th scope="col" class="px-6 py-3">{{"status"|translate}}</th>
-                    <th scope="col" class="px-6 py-3">{{"wi-fi zone"|translate}}</th>
-                    <th scope="col" class="px-6 py-3">{{"pakage-wifi"|translate}}</th>
-                    <th scope="col" class="px-6 py-3">{{"ticket"|translate}}</th>
-                    <th scope="col" class="px-6 py-3">{{"create at"|translate}}</th>
-                    <th scope="col" class="px-6 py-3">Actions</th>
-                    
-                    
-                </tr>
-            </thead>
-            
-            <tbody>
-                @if(transactions$|async; as transactions){
-                    @for(transaction of transactions;track transaction.id;;let i=$index){
-                        <tr class="dark:bg-gray-800 dark:border-gray-700" [ngClass]="i%2!==0?'bg-gray-100 border-b':'bg-white border-b'">
-                            <td class="px-6 py-4 primary-color" >{{transaction.receiver_number}}</td>
-                            <td class="px-6 py-4">{{transaction.type}}</td>
-                            <td class="px-6 py-4">{{transaction.price}}</td>
-                            <td class="px-6 py-4">{{transaction.status}}</td>
-                            <td class="px-6 py-4">{{transaction.ticket_wifi.pakage_wifi.zone_wifis.name}}</td>
-                            <td class="px-6 py-4">{{transaction.ticket_wifi.pakage_wifi.designation}}</td>
-                            <td class="px-6 py-4">{{transaction.ticket_wifi.username}}</td>
-                            <td class="px-6 py-4">{{transaction.created_at|date:'medium'}}</td>
-                            
-                            <td class="btn-action">
-                                <button class="btn btn-outline-primary btn-danger" (click)="detailTransaction(transaction)"><i class="fa-solid fa-eye"></i></button>
-                            </td>
-                        </tr>
+        <div class="table-responsive">
+            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400" >
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr >
+                        
+                        <th scope="col" class="px-6 py-3">{{"reicever"|translate}}</th>
+                        <th scope="col" class="px-6 py-3">{{"type"|translate}}</th>
+                        <th scope="col" class="px-6 py-3">{{"price"|translate}}</th>
+                        <th scope="col" class="px-6 py-3">{{"status"|translate}}</th>
+                        <th scope="col" class="px-6 py-3">{{"wi-fi zone"|translate}}</th>
+                        <th scope="col" class="px-6 py-3">{{"pakage-wifi"|translate}}</th>
+                        <th scope="col" class="px-6 py-3">{{"ticket"|translate}}</th>
+                        <th scope="col" class="px-6 py-3">{{"create at"|translate}}</th>
+                        <th scope="col" class="px-6 py-3">Actions</th>
+                        
+                        
+                    </tr>
+                </thead>
+                
+                <tbody>
+                    @if(transactions$|async; as transactions){
+                        @for(transaction of transactions;track transaction.id;;let i=$index){
+                            <tr class="dark:bg-gray-800 dark:border-gray-700" [ngClass]="i%2!==0?'bg-gray-100 border-b':'bg-white border-b'">
+                                <td class="px-6 py-4 primary-color" >{{transaction.receiver_number}}</td>
+                                <td class="px-6 py-4">{{transaction.type}}</td>
+                                <td class="px-6 py-4">{{transaction.price}}</td>
+                                <td class="px-6 py-4">{{transaction.status}}</td>
+                                <td class="px-6 py-4">{{transaction.ticket_wifi.pakage_wifi.zone_wifis.name}}</td>
+                                <td class="px-6 py-4">{{transaction.ticket_wifi.pakage_wifi.designation}}</td>
+                                <td class="px-6 py-4">{{transaction.ticket_wifi.username}}</td>
+                                <td class="px-6 py-4">{{transaction.created_at|date:'medium'}}</td>
+                                
+                                <td class="btn-action">
+                                    <button class="btn btn-outline-primary btn-danger" (click)="detailTransaction(transaction)"><i class="fa-solid fa-eye"></i></button>
+                                </td>
+                            </tr>
+                        }
                     }
-                }
-                    
-            
-            </tbody>
-        </table>
+                        
+                
+                </tbody>
+            </table>
+        </div>
+        
         <mat-paginator #paginator [length]="totaElement" (page)="pageEvent=pageChange($event)"
         [pageSize]="itemsPerPage"
        [pageSizeOptions]="pageArray"

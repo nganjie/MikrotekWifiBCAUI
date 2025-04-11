@@ -6,7 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, map, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { DataServerPaginate, DataServerSingleton } from '../../models/data-server.model';
+import { ApiPaginatedResponse, ApiResponse } from '../../models/data-server.model';
 import { PaginateData } from '../../models/paginate-data.model';
 import { PakageWifiDetail } from '../models/pakage-wifi-detail.model';
 import Pusher from 'pusher-js';
@@ -88,7 +88,7 @@ export class PakageWifiService extends GlobalServices{
       const headers=this.getHearder();
       this.setLoadStatus(true)
      let pagin =this.explosePaginationOption(paginateD);
-      this.http.get<DataServerPaginate<PakageWifiDetail>>(`${environment.apiUrlFirst}/admin/pakage-wifi/all?${pagin}`,headers).pipe(
+      this.http.get<ApiPaginatedResponse<PakageWifiDetail>>(`${environment.apiUrlFirst}/admin/pakage-wifi/all?${pagin}`,headers).pipe(
         map(dataServer=>{
           console.log(dataServer);
           this._PakageWifis$.next(dataServer.data?.data??[])
@@ -103,7 +103,7 @@ export class PakageWifiService extends GlobalServices{
     }
     createPakageWifi(form:FormGroup,zone_wifi_id:string) {
   
-      this.http.post<DataServerSingleton<any>>(`${environment.apiUrlFirst}/admin/pakage-wifi/${zone_wifi_id}/create`,form.value,this.headers).pipe(
+      this.http.post<ApiResponse<any>>(`${environment.apiUrlFirst}/admin/pakage-wifi/${zone_wifi_id}/create`,form.value,this.headers).pipe(
           tap(data=>{
               console.log(data)
               if(data.success){
@@ -120,7 +120,7 @@ export class PakageWifiService extends GlobalServices{
     }
     updatePakageWifi(form:FormGroup,wifi_zone_id:string){
       const headers=this.getHearder();
-      this.http.put<DataServerSingleton<PakageWifiDetail>>(`${environment.apiUrlFirst}/admin/pakage-wifi/${wifi_zone_id}/update`,form.value,headers).pipe(
+      this.http.put<ApiResponse<PakageWifiDetail>>(`${environment.apiUrlFirst}/admin/pakage-wifi/${wifi_zone_id}/update`,form.value,headers).pipe(
         tap(data=>{
           if(data.success){
             console.log(data)
@@ -135,7 +135,7 @@ export class PakageWifiService extends GlobalServices{
     }
       deletePakageWifi(id:string){
         const headers=this.getHearder();
-        this.http.delete<DataServerSingleton<PakageWifiDetail>>(`${environment.apiUrlFirst}/admin/pakage-wifi/${id}/delete`,headers).pipe(
+        this.http.delete<ApiResponse<PakageWifiDetail>>(`${environment.apiUrlFirst}/admin/pakage-wifi/${id}/delete`,headers).pipe(
           tap(data=>{
             if(data.success){
               console.log(data)
@@ -150,7 +150,7 @@ export class PakageWifiService extends GlobalServices{
       }
     getPakageWifiDetail(wifi_zone_id:string):Observable<PakageWifiDetail>{
       const headers=this.getHearder();
-      return this.http.get<DataServerSingleton<PakageWifiDetail>>(`${environment.apiUrlFirst}/admin/pakage-wifi/${wifi_zone_id}/details`,headers).pipe(
+      return this.http.get<ApiResponse<PakageWifiDetail>>(`${environment.apiUrlFirst}/admin/pakage-wifi/${wifi_zone_id}/details`,headers).pipe(
         map(data=>data.data as PakageWifiDetail)
       )
     }

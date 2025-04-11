@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  apiUrlFirst:"http://127.0.0.1:8000/api",
-  apiUrlSecond:"http://127.0.0.1:8000/api"
+  apiUrlFirst:"http://127.0.0.1:8002/api",
+  apiUrlSecond:"http://127.0.0.1:8002/api"
 };
 
 /*

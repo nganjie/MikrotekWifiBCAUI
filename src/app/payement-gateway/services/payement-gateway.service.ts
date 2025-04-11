@@ -5,7 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, map, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { DataServerPaginate, DataServerSingleton } from '../../models/data-server.model';
+import { ApiPaginatedResponse, ApiResponse } from '../../models/data-server.model';
 import { PaginateData } from '../../models/paginate-data.model';
 import { GlobalServices } from '../../services/global.services';
 import { PayementGatewayDetail } from '../models/payement-gateway-detail.model';
@@ -26,7 +26,7 @@ export class PayementGatewayService extends GlobalServices{
       const headers=this.getHearder();
       this.setLoadStatus(true)
      let pagin =this.explosePaginationOption(paginateD);
-      this.http.get<DataServerPaginate<PayementGatewayDetail>>(`${environment.apiUrlFirst}/admin/payement-gateways/alls?${pagin}`,headers).pipe(
+      this.http.get<ApiPaginatedResponse<PayementGatewayDetail>>(`${environment.apiUrlFirst}/admin/payement-gateways/alls?${pagin}`,headers).pipe(
         map(dataServer=>{
           console.log(dataServer);
           this._payementGateways$.next(dataServer.data?.data??[])
@@ -40,8 +40,8 @@ export class PayementGatewayService extends GlobalServices{
       ).subscribe()
     }
     createpayementGateway(form:FormGroup,zone_wifi_id:string) {
-  
-      this.http.post<DataServerSingleton<any>>(`${environment.apiUrlFirst}/admin/payement-gateways/${zone_wifi_id}/create`,form.value,this.headers).pipe(
+      const headers=this.getHearder();
+      this.http.post<ApiResponse<any>>(`${environment.apiUrlFirst}/admin/payement-gateways/create`,form.value,headers).pipe(
           tap(data=>{
               console.log(data)
               if(data.success){
@@ -58,7 +58,7 @@ export class PayementGatewayService extends GlobalServices{
     }
     updatepayementGateway(form:FormGroup,wifi_zone_id:string){
       const headers=this.getHearder();
-      this.http.put<DataServerSingleton<PayementGatewayDetail>>(`${environment.apiUrlFirst}/admin/payement-gateways/${wifi_zone_id}/update`,form.value,headers).pipe(
+      this.http.put<ApiResponse<PayementGatewayDetail>>(`${environment.apiUrlFirst}/admin/payement-gateways/${wifi_zone_id}/update`,form.value,headers).pipe(
         tap(data=>{
           if(data.success){
             console.log(data)
@@ -73,7 +73,7 @@ export class PayementGatewayService extends GlobalServices{
     }
       deletepayementGateway(id:string){
         const headers=this.getHearder();
-        this.http.delete<DataServerSingleton<PayementGatewayDetail>>(`${environment.apiUrlFirst}/admin/Payement Gateway /${id}/delete`,headers).pipe(
+        this.http.delete<ApiResponse<PayementGatewayDetail>>(`${environment.apiUrlFirst}/admin/Payement Gateway /${id}/delete`,headers).pipe(
           tap(data=>{
             if(data.success){
               console.log(data)
@@ -88,7 +88,7 @@ export class PayementGatewayService extends GlobalServices{
       }
     getPayementGatewayDetail(wifi_zone_id:string):Observable<PayementGatewayDetail>{
       const headers=this.getHearder();
-      return this.http.get<DataServerSingleton<PayementGatewayDetail>>(`${environment.apiUrlFirst}/admin/payement-gateways/${wifi_zone_id}/details`,headers).pipe(
+      return this.http.get<ApiResponse<PayementGatewayDetail>>(`${environment.apiUrlFirst}/admin/payement-gateways/${wifi_zone_id}/details`,headers).pipe(
         map(data=>data.data as PayementGatewayDetail)
       )
     }

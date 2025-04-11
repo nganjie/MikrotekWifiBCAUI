@@ -90,6 +90,7 @@
     "Subscriptions":"Subscriptions",
     "minimum withdrawal":"minimum withdrawal",
     "sms charge":"sms charge",
-    "fixed charge":"fixed charge"
+    "fixed charge":"fixed charge",
+    "enabled sending messages to users":"enabled sending messages to users"
 
 }

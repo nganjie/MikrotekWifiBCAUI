@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { DataServerSingleton } from '../models/data-server.model';
+import { ApiResponse } from '../models/data-server.model';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -23,7 +23,7 @@ export class AuthentificateService extends GlobalServices{
     super(https,snak)
   }
   autentificate(userName:string|null,password:string|null){
-    this.http.post<DataServerSingleton>(`${environment.apiUrlFirst}/auth/login`,{
+    this.http.post<ApiResponse>(`${environment.apiUrlFirst}/auth/login`,{
         "email":userName,
         "password":password
     }).pipe(

@@ -6,7 +6,7 @@ import { FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BehaviorSubject, Observable, map, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { DataServerPaginate, DataServerSingleton } from '../models/data-server.model';
+import { ApiPaginatedResponse, ApiResponse } from '../models/data-server.model';
 import { PaginateData } from '../models/paginate-data.model';
 import { TicketWifiDetail } from './models/ticket-wifi-detail.model';
 import { ListTicketWifiComponent } from './components/list-ticket-wifi/list-ticket-wifi.component';
@@ -32,7 +32,7 @@ export class TicketWifiRoutingModule extends GlobalServices{
     const headers=this.getHearder();
     this.setLoadStatus(true)
    let pagin =this.explosePaginationOption(paginateD);
-    this.http.get<DataServerPaginate<TicketWifiDetail>>(`${environment.apiUrlFirst}/admin/wifi-zone/all?${pagin}`,headers).pipe(
+    this.http.get<ApiPaginatedResponse<TicketWifiDetail>>(`${environment.apiUrlFirst}/admin/wifi-zone/all?${pagin}`,headers).pipe(
       map(dataServer=>{
         console.log(dataServer);
         this._ticketWifis$.next(dataServer.data?.data??[])
@@ -46,7 +46,7 @@ export class TicketWifiRoutingModule extends GlobalServices{
   }
   createticketWifi(form:FormGroup) {
 
-    this.http.post<DataServerSingleton<any>>(`${environment.apiUrlFirst}/admin/wifi-zone/create`,form.value,this.headers).pipe(
+    this.http.post<ApiResponse<any>>(`${environment.apiUrlFirst}/admin/wifi-zone/create`,form.value,this.headers).pipe(
         tap(data=>{
             console.log(data)
             if(data.success){
@@ -63,7 +63,7 @@ export class TicketWifiRoutingModule extends GlobalServices{
   }
   updateticketWifi(form:FormGroup,wifi_zone_id:string){
     const headers=this.getHearder();
-    this.http.put<DataServerSingleton<TicketWifiDetail>>(`${environment.apiUrlFirst}/admin/wifi-zone/${wifi_zone_id}/update`,form.value,headers).pipe(
+    this.http.put<ApiResponse<TicketWifiDetail>>(`${environment.apiUrlFirst}/admin/wifi-zone/${wifi_zone_id}/update`,form.value,headers).pipe(
       tap(data=>{
         if(data.success){
           console.log(data)
@@ -78,7 +78,7 @@ export class TicketWifiRoutingModule extends GlobalServices{
   }
   deleteticketWifi(wifi_zone_id:string){
     const headers=this.getHearder();
-    this.http.delete<DataServerSingleton<TicketWifiDetail>>(`${environment.apiUrlFirst}/admin/wifi-zone/${wifi_zone_id}/delete`,headers).pipe(
+    this.http.delete<ApiResponse<TicketWifiDetail>>(`${environment.apiUrlFirst}/admin/wifi-zone/${wifi_zone_id}/delete`,headers).pipe(
       tap(data=>{
         if(data.success){
           console.log(data)
@@ -93,7 +93,7 @@ export class TicketWifiRoutingModule extends GlobalServices{
   }
   getTicketWifiDetail(wifi_zone_id:string):Observable<TicketWifiDetail>{
     const headers=this.getHearder();
-    return this.http.get<DataServerSingleton<TicketWifiDetail>>(`${environment.apiUrlFirst}/admin/wifi-zone/${wifi_zone_id}/detail`,headers).pipe(
+    return this.http.get<ApiResponse<TicketWifiDetail>>(`${environment.apiUrlFirst}/admin/wifi-zone/${wifi_zone_id}/detail`,headers).pipe(
       map(data=>data.data as TicketWifiDetail)
     )
   }

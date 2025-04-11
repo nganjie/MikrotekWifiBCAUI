@@ -11,14 +11,14 @@ export interface DataServer<T=any> {
     error_code: number;
     error: string;
   }
-  export interface DataServerPaginate<T=any> {
+  export interface ApiPaginatedResponse<T=any> {
     data?:PaginationDetail<T>;
     message?: any;
     success: boolean;
     error_code: number;
     error: string;
   }
-  export interface DataServerSingleton<T=any>{
+  export interface ApiResponse<T=any>{
     data:T;
     message: any;
     success: boolean;

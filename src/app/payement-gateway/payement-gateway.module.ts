@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, SlicePipe } from '@angular/common';
 
 import { PayementGatewayRoutingModule } from './payement-gateway-routing.module';
 import { ListPayementGatewayComponent } from './components/list-payement-gateway/list-payement-gateway.component';
@@ -20,6 +20,7 @@ import { SharedModule } from '../shared/shared.module';
     CommonModule,
     PayementGatewayRoutingModule,
     MatIconModule,
+    SlicePipe,
             TranslateModule.forRoot({
               loader:{
                 provide:TranslateLoader,

@@ -12,44 +12,47 @@
         @if(loading$|async){
             <mat-spinner></mat-spinner>
         }
-        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400" >
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr >
-                    
-                    <th scope="col" class="px-6 py-3">{{"name"|translate}}</th>
-                    <th scope="col" class="px-6 py-3">{{"type"|translate}}</th>
-                    <th scope="col" class="px-6 py-3">{{"fixed_charge"|translate}}</th>
-                    <th scope="col" class="px-6 py-3">{{"percent_charge"|translate}}</th>
-                    <th scope="col" class="px-6 py-3">{{"min_limit"|translate}}</th>
-                    <th scope="col" class="px-6 py-3">{{"create at"|translate}}</th>
-                    <th scope="col" class="px-6 py-3">Actions</th>
-                    
-                    
-                </tr>
-            </thead>
-            
-            <tbody>
-                @if(pakages$|async; as pakages){
-                    @for(pakage of pakages;track pakage.id;;let i=$index){
-                        <tr class="dark:bg-gray-800 dark:border-gray-700" [ngClass]="i%2!==0?'bg-gray-100 border-b':'bg-white border-b'">
-                            <td class="px-6 py-4 primary-color" (click)="updatePakage(pakage)">{{pakage.name}}</td>
-                            <td class="px-6 py-4">{{pakage.type}}</td>
-                            <td class="px-6 py-4">{{pakage.fixed_charge}}</td>
-                            <td class="px-6 py-4">{{pakage.percent_charge}}</td>
-                            <td class="px-6 py-4">{{pakage.min_limit}}</td>
-                            <td class="px-6 py-4">{{pakage.created_at|date:'medium'}}</td>
-                            
-                            <td class="btn-action">
-                                <button  class="btn btn-primary btn-warning" (click)="updatePakage(pakage)"><i class="fas fa-edit"></i></button>
-                                <button class="btn btn-outline-primary btn-danger" (click)="deletepakage(pakage)"><i class="fa fa-trash btn-danger"></i></button>
-                            </td>
-                        </tr>
+        <div class="table-responsive">
+            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400" >
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr >
+                        
+                        <th scope="col" class="px-6 py-3">{{"name"|translate}}</th>
+                        <th scope="col" class="px-6 py-3">{{"type"|translate}}</th>
+                        <th scope="col" class="px-6 py-3">{{"fixed_charge"|translate}}</th>
+                        <th scope="col" class="px-6 py-3">{{"percent_charge"|translate}}</th>
+                        <th scope="col" class="px-6 py-3">{{"min_limit"|translate}}</th>
+                        <th scope="col" class="px-6 py-3">{{"create at"|translate}}</th>
+                        <th scope="col" class="px-6 py-3">Actions</th>
+                        
+                        
+                    </tr>
+                </thead>
+                
+                <tbody>
+                    @if(pakages$|async; as pakages){
+                        @for(pakage of pakages;track pakage.id;;let i=$index){
+                            <tr class="dark:bg-gray-800 dark:border-gray-700" [ngClass]="i%2!==0?'bg-gray-100 border-b':'bg-white border-b'">
+                                <td class="px-6 py-4 primary-color" (click)="updatePakage(pakage)">{{pakage.name}}</td>
+                                <td class="px-6 py-4">{{pakage.type}}</td>
+                                <td class="px-6 py-4">{{pakage.fixed_charge}}</td>
+                                <td class="px-6 py-4">{{pakage.percent_charge}}</td>
+                                <td class="px-6 py-4">{{pakage.min_limit}}</td>
+                                <td class="px-6 py-4">{{pakage.created_at|date:'medium'}}</td>
+                                
+                                <td class="btn-action">
+                                    <button  class="btn btn-primary btn-warning" (click)="updatePakage(pakage)"><i class="fas fa-edit"></i></button>
+                                    <button class="btn btn-outline-primary btn-danger" (click)="deletepakage(pakage)"><i class="fa fa-trash btn-danger"></i></button>
+                                </td>
+                            </tr>
+                        }
                     }
-                }
-                    
-            
-            </tbody>
-        </table>
+                        
+                
+                </tbody>
+            </table>
+        </div>
+        
         <mat-paginator #paginator [length]="totaElement" (page)="pageEvent=pageChange($event)"
         [pageSize]="itemsPerPage"
        [pageSizeOptions]="pageArray"

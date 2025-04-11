@@ -12,45 +12,48 @@
         @if(loading$|async){
             <mat-spinner></mat-spinner>
         }
-        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400" >
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr >
-                    
-                    <th scope="col" class="px-6 py-3">{{"username"|translate}}</th>
-                    <th scope="col" class="px-6 py-3">{{"password"|translate}}</th>
-                    <th scope="col" class="px-6 py-3">{{"profile"|translate}}</th>
-                    <th scope="col" class="px-6 py-3">{{"pakage Wi-fi"|translate}}</th>
-                    <th scope="col" class="px-6 py-3">{{"wi-fi zone"|translate}}</th>
-                    <th scope="col" class="px-6 py-3">{{"state"|translate}}</th>
-                    <th scope="col" class="px-6 py-3">{{"create at"|translate}}</th>
-                    <th scope="col" class="px-6 py-3">Actions</th>
-                    
-                    
-                </tr>
-            </thead>
-            
-            <tbody>
-                @if(ticketWifis$|async; as ticketWifis){
-                    @for(ticketWifi of ticketWifis;track ticketWifi.id;;let i=$index){
-                        <tr class="dark:bg-gray-800 dark:border-gray-700" [ngClass]="i%2!==0?'bg-gray-100 border-b':'bg-white border-b'">
-                            <td class="px-6 py-4 primary-color" >{{ticketWifi.username}}</td>
-                            <td class="px-6 py-4">{{ticketWifi.password}}</td>
-                            <td class="px-6 py-4">{{ticketWifi.profile}}</td>
-                            <td class="px-6 py-4">{{ticketWifi.pakage_wifi.designation}}</td>
-                            <td class="px-6 py-4">{{ticketWifi.pakage_wifi.zone_wifis.name}}</td>
-                            <td class="px-6 py-4">{{ticketWifi.state}}</td>
-                            <td class="px-6 py-4">{{ticketWifi.created_at|date:'medium'}}</td>
-                            
-                            <td class="btn-action">
-                                <button class="btn btn-outline-primary btn-danger" (click)="deleteticketWifi(ticketWifi)"><i class="fa fa-trash btn-danger"></i></button>
-                            </td>
-                        </tr>
+        <div class="table-responsive">
+            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400" >
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr >
+                        
+                        <th scope="col" class="px-6 py-3">{{"username"|translate}}</th>
+                        <th scope="col" class="px-6 py-3">{{"password"|translate}}</th>
+                        <th scope="col" class="px-6 py-3">{{"profile"|translate}}</th>
+                        <th scope="col" class="px-6 py-3">{{"pakage Wi-fi"|translate}}</th>
+                        <th scope="col" class="px-6 py-3">{{"wi-fi zone"|translate}}</th>
+                        <th scope="col" class="px-6 py-3">{{"state"|translate}}</th>
+                        <th scope="col" class="px-6 py-3">{{"create at"|translate}}</th>
+                        <th scope="col" class="px-6 py-3">Actions</th>
+                        
+                        
+                    </tr>
+                </thead>
+                
+                <tbody>
+                    @if(ticketWifis$|async; as ticketWifis){
+                        @for(ticketWifi of ticketWifis;track ticketWifi.id;;let i=$index){
+                            <tr class="dark:bg-gray-800 dark:border-gray-700" [ngClass]="i%2!==0?'bg-gray-100 border-b':'bg-white border-b'">
+                                <td class="px-6 py-4 primary-color" >{{ticketWifi.username}}</td>
+                                <td class="px-6 py-4">{{ticketWifi.password}}</td>
+                                <td class="px-6 py-4">{{ticketWifi.profile}}</td>
+                                <td class="px-6 py-4">{{ticketWifi.pakage_wifi.designation}}</td>
+                                <td class="px-6 py-4">{{ticketWifi.pakage_wifi.zone_wifis.name}}</td>
+                                <td class="px-6 py-4">{{ticketWifi.state}}</td>
+                                <td class="px-6 py-4">{{ticketWifi.created_at|date:'medium'}}</td>
+                                
+                                <td class="btn-action">
+                                    <button class="btn btn-outline-primary btn-danger" (click)="deleteticketWifi(ticketWifi)"><i class="fa fa-trash btn-danger"></i></button>
+                                </td>
+                            </tr>
+                        }
                     }
-                }
-                    
-            
-            </tbody>
-        </table>
+                        
+                
+                </tbody>
+            </table>
+        </div>
+        
         <mat-paginator #paginator [length]="totaElement" (page)="pageEvent=pageChange($event)"
         [pageSize]="itemsPerPage"
        [pageSizeOptions]="pageArray"

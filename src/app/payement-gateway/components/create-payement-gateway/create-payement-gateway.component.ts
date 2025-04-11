@@ -49,6 +49,7 @@ export class CreatePayementGatewayComponent implements OnInit {
         }
       )
       this.payementGatewayForm=this.formBuilder.group({
+        name:['',Validators.required],
         site_id:['',Validators.required],
         secret_key:['',Validators.required],
         api_key:['',Validators.required],
@@ -62,6 +63,7 @@ export class CreatePayementGatewayComponent implements OnInit {
             console.log(data);
             console.log('une branche percher');
             this.payementGatewayForm.patchValue({
+              name:data.name,
               site_id:data.site_id,
               secret_key:data.secret_key,
               api_key:data.api_key,

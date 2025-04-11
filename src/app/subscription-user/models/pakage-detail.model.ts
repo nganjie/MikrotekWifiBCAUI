@@ -6,6 +6,7 @@ export interface PakageDetail {
     fixed_charge: string;
     percent_charge: string;
     min_limit: string;
+    sms_charge:number;
     state: string;
     created_at: string;
     updated_at: string;

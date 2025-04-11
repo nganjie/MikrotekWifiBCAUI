@@ -7,9 +7,16 @@
     
     <div>
         <div class="">
+            
             <div class="current-subscription mb-8">
                 
                 @if(pakageUser$|async;as pakageUser){
+                    <div class="form-check">
+                        <label class="form-check-label" for="flexCheckChecked">
+                            {{"enabled sending messages to users"|translate}}
+                          </label>
+                        <input class="form-check-input" type="checkbox" [value]="pakageUser.is_send_message" id="flexCheckChecked"  checked (click)="isEntityCheck($event)">
+                      </div>
                     <div class="flex flex-col mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white mr-12">
                         <p class="primary-color">{{"current subscription"|translate}}</p>
                         <h3 class="mb-4 text-2xl font-semibold primary-color">{{pakageUser.pakage.name}}</h3>
@@ -28,7 +35,7 @@
                             <li class="flex items-center space-x-3">
                                 <!-- Icon -->
                                 <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                                <span>{{"sms charge"|translate}}: <span class="font-semibold primary-color">{{pakageUser.pakage.percent_charge}}</span></span>
+                                <span>{{"sms charge"|translate}}: <span class="font-semibold primary-color">{{pakageUser.pakage.sms_charge}}</span></span>
                                 
                             </li>
                             <li class="flex items-center space-x-3">

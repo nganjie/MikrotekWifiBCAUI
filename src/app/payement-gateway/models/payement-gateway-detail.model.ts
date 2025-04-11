@@ -1,5 +1,6 @@
 export interface PayementGatewayDetail {
     id: string;
+    name:string
     site_id: string;
     secret_key: string;
     api_key: string;

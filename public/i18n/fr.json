@@ -76,5 +76,6 @@
     "sms charge":"frais des sms",
     "fixed charge":"frais fixes",
     "month":"Mois",
-    "unit":"ticket"
+    "unit":"ticket",
+    "enabled sending messages to users":"activé l'envoie de message aux utilisateurs"
 }
