@@ -10,9 +10,11 @@ import { ApiPaginatedResponse, ApiResponse } from '../models/data-server.model';
 import { PaginateData } from '../models/paginate-data.model';
 import { TicketWifiDetail } from './models/ticket-wifi-detail.model';
 import { ListTicketWifiComponent } from './components/list-ticket-wifi/list-ticket-wifi.component';
+import { DetailTicketWifiComponent } from './components/detail-ticket-wifi/detail-ticket-wifi.component';
 
 const routes: Routes = [
-  {path:'',component:ListTicketWifiComponent}
+  {path:'',component:ListTicketWifiComponent},
+  {path:':id',component:DetailTicketWifiComponent}
 ];
 
 @NgModule({
@@ -55,7 +57,7 @@ export class TicketWifiRoutingModule extends GlobalServices{
                this.setLoadStatus(true)
                this.setConfirmSubmit(true)
             }else{
-                this._error$.next({status:false,message:data.error})
+                this._error$.next({status:false,message:data.message})
             }
             
         })
@@ -71,7 +73,7 @@ export class TicketWifiRoutingModule extends GlobalServices{
          this.setLoadStatus(true)
          this.setConfirmSubmit(true)
       }else{
-          this._error$.next({status:false,message:data.error})
+          this._error$.next({status:false,message:data.message})
       }
       })
     ).subscribe()
@@ -86,7 +88,7 @@ export class TicketWifiRoutingModule extends GlobalServices{
          this.setLoadStatus(true)
          this.setConfirmSubmit(true)
       }else{
-          this._error$.next({status:false,message:data.error})
+          this._error$.next({status:false,message:data.message})
       }
       })
     ).subscribe()

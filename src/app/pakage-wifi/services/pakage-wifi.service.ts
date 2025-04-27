@@ -10,6 +10,7 @@ import { ApiPaginatedResponse, ApiResponse } from '../../models/data-server.mode
 import { PaginateData } from '../../models/paginate-data.model';
 import { PakageWifiDetail } from '../models/pakage-wifi-detail.model';
 import Pusher from 'pusher-js';
+import { searchOption } from '../../models/search-option.model';
 
 @Injectable({
   providedIn: 'root'
@@ -19,11 +20,11 @@ export class PakageWifiService extends GlobalServices{
   constructor(private https:HttpClient,private snak :MatSnackBar,private router:Router){
       super(https,snak)
 
-      this.pusher = new Pusher('bf5e228232638611c6c0', {
+     /* this.pusher = new Pusher('bf5e228232638611c6c0', {
         cluster: 'eu', // Remplacez par votre cluster Pusher
       });
       
-     /* this.echo.connector.socket.on('connect', () => {
+      this.echo.connector.socket.on('connect', () => {
         console.log('CONNECTED');
     });
 
@@ -84,11 +85,30 @@ export class PakageWifiService extends GlobalServices{
     get pakageWifis$():Observable<PakageWifiDetail[]>{
       return this._PakageWifis$.asObservable();
     }
-    getPakageWifisFormServer(paginateD:PaginateData){
+    getPakageWifisFormServer(paginateD:PaginateData,id:string|undefined){
       const headers=this.getHearder();
       this.setLoadStatus(true)
      let pagin =this.explosePaginationOption(paginateD);
-      this.http.get<ApiPaginatedResponse<PakageWifiDetail>>(`${environment.apiUrlFirst}/admin/pakage-wifi/all?${pagin}`,headers).pipe(
+     const url =id?`pakage-wifi/${id}/pakage-wifis`:`pakage-wifi/all`
+      this.http.get<ApiPaginatedResponse<PakageWifiDetail>>(`${environment.apiUrlFirst}/admin/${url}?${pagin}`,headers).pipe(
+        map(dataServer=>{
+          console.log(dataServer);
+          this._PakageWifis$.next(dataServer.data?.data??[])
+          this.setLoadStatus(false)
+          this._paginateData$.next({
+            current_page:dataServer.data?.current_page??1,
+            per_page:dataServer.data?.per_page??1,
+            total:dataServer.data?.total??1,
+          })
+        })
+      ).subscribe()
+    }
+    getPakageWifisFullFormServer(searchOptions:searchOption[]=[]){
+      const headers=this.getHearder();
+      this.setLoadStatus(true)
+      const search =this.exploseSearchOption(searchOptions);
+     const url =`pakage-wifi/full-all?${search}`
+      this.http.get<ApiPaginatedResponse<PakageWifiDetail>>(`${environment.apiUrlFirst}/admin/${url}?${search}`,headers).pipe(
         map(dataServer=>{
           console.log(dataServer);
           this._PakageWifis$.next(dataServer.data?.data??[])
@@ -102,17 +122,17 @@ export class PakageWifiService extends GlobalServices{
       ).subscribe()
     }
     createPakageWifi(form:FormGroup,zone_wifi_id:string) {
-  
+      this.setLoadStatus(true);
       this.http.post<ApiResponse<any>>(`${environment.apiUrlFirst}/admin/pakage-wifi/${zone_wifi_id}/create`,form.value,this.headers).pipe(
           tap(data=>{
               console.log(data)
               if(data.success){
                   console.log(data)
                 this.setSnackMesage('Pakage Wi-fi create successfully')
-                 this.setLoadStatus(true)
+                 this.setLoadStatus(false)
                  this.setConfirmSubmit(true)
               }else{
-                  this._error$.next({status:false,message:data.error})
+                  this._error$.next({status:false,message:data.message})
               }
               
           })
@@ -120,15 +140,16 @@ export class PakageWifiService extends GlobalServices{
     }
     updatePakageWifi(form:FormGroup,wifi_zone_id:string){
       const headers=this.getHearder();
+      this.setLoadStatus(true)
       this.http.put<ApiResponse<PakageWifiDetail>>(`${environment.apiUrlFirst}/admin/pakage-wifi/${wifi_zone_id}/update`,form.value,headers).pipe(
         tap(data=>{
           if(data.success){
             console.log(data)
           this.setSnackMesage('Pakage-Wifi Update successfully')
-           this.setLoadStatus(true)
+           this.setLoadStatus(false)
            this.setConfirmSubmit(true)
         }else{
-            this._error$.next({status:false,message:data.error})
+            this._error$.next({status:false,message:data.message})
         }
         })
       ).subscribe()
@@ -143,7 +164,7 @@ export class PakageWifiService extends GlobalServices{
              this.setLoadStatus(true)
              this.setConfirmSubmit(true)
           }else{
-              this._error$.next({status:false,message:data.error})
+              this._error$.next({status:false,message:data.message})
           }
           })
         ).subscribe()

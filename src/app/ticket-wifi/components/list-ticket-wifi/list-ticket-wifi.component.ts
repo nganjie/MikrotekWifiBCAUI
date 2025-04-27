@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, BehaviorSubject } from 'rxjs';
@@ -14,6 +14,7 @@ import { ImportTicketWifiComponent } from '../import-ticket-wifi/import-ticket-w
   styleUrl: './list-ticket-wifi.component.css'
 })
 export class ListTicketWifiComponent implements OnInit{
+  @Input()pakage_wifi_id?:string
    ticketWifis$!:Observable<TicketWifiDetail[]>;
     loading$!:Observable<boolean>;
     itemsPerPage: number = 2;
@@ -38,7 +39,8 @@ export class ListTicketWifiComponent implements OnInit{
         }
       );
       this.ticketWifis$=this.ticketWifiService.ticketWifis$;
-      this.ticketWifiService.getticketWifisFormServer({current_page:1,per_page:this.itemsPerPage});
+      console.log('pakage id : ',this.pakage_wifi_id)
+      this.ticketWifiService.getticketWifisFormServer({current_page:1,per_page:this.itemsPerPage},this.pakage_wifi_id);
     }
     createticketWifi() {
       const modalRef =this.modalService.open(ImportTicketWifiComponent,{
@@ -46,11 +48,12 @@ export class ListTicketWifiComponent implements OnInit{
         backdrop:'static',
       });
       var reloadPgae:Observable<boolean>;
+      modalRef.componentInstance.pakage_wifi_id=this.pakage_wifi_id;
       reloadPgae=modalRef.componentInstance.realod;
       reloadPgae.subscribe(
         (b)=>{
           if(b){
-            this.ticketWifiService.getticketWifisFormServer(this.paginateData)
+            this.ticketWifiService.getticketWifisFormServer(this.paginateData,this.pakage_wifi_id)
           }
         }
       )
@@ -64,7 +67,7 @@ export class ListTicketWifiComponent implements OnInit{
       //this.itemsPerPage$.next(this.itemsPerPage)
       this.paginateData.current_page=event.pageIndex+1
       this.paginateData.per_page=event.pageSize;
-      this.ticketWifiService.getticketWifisFormServer(this.paginateData)
+      this.ticketWifiService.getticketWifisFormServer(this.paginateData,this.pakage_wifi_id)
       console.log(this.paginateData)
       return event;
     }

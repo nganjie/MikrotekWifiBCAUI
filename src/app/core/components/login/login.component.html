@@ -30,6 +30,9 @@
                     }
     </div>
     <!-- Login Button -->
+    @if(loading$|async){
+      <mat-spinner></mat-spinner>
+  }
     <button type="submit" (click)="onSubmit()" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md py-2 px-4 w-full">Login</button>
   </form>
   <!-- Sign up  Link -->

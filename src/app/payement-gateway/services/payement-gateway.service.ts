@@ -41,16 +41,17 @@ export class PayementGatewayService extends GlobalServices{
     }
     createpayementGateway(form:FormGroup,zone_wifi_id:string) {
       const headers=this.getHearder();
+      this.setLoadStatus(true)
       this.http.post<ApiResponse<any>>(`${environment.apiUrlFirst}/admin/payement-gateways/create`,form.value,headers).pipe(
           tap(data=>{
               console.log(data)
               if(data.success){
                   console.log(data)
                 this.setSnackMesage('Payement Gateway  create successfully')
-                 this.setLoadStatus(true)
+                 this.setLoadStatus(false)
                  this.setConfirmSubmit(true)
               }else{
-                  this._error$.next({status:false,message:data.error})
+                  this._error$.next({status:false,message:data.message})
               }
               
           })
@@ -58,15 +59,16 @@ export class PayementGatewayService extends GlobalServices{
     }
     updatepayementGateway(form:FormGroup,wifi_zone_id:string){
       const headers=this.getHearder();
+      this.setLoadStatus(true)
       this.http.put<ApiResponse<PayementGatewayDetail>>(`${environment.apiUrlFirst}/admin/payement-gateways/${wifi_zone_id}/update`,form.value,headers).pipe(
         tap(data=>{
           if(data.success){
             console.log(data)
           this.setSnackMesage('Payement Gateway  Update successfully')
-           this.setLoadStatus(true)
+           this.setLoadStatus(false)
            this.setConfirmSubmit(true)
         }else{
-            this._error$.next({status:false,message:data.error})
+            this._error$.next({status:false,message:data.message})
         }
         })
       ).subscribe()
@@ -81,7 +83,7 @@ export class PayementGatewayService extends GlobalServices{
              this.setLoadStatus(true)
              this.setConfirmSubmit(true)
           }else{
-              this._error$.next({status:false,message:data.error})
+              this._error$.next({status:false,message:data.message})
           }
           })
         ).subscribe()

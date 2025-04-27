@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, BehaviorSubject } from 'rxjs';
@@ -13,6 +13,7 @@ import { CreatePakageWifiComponent } from '../create-pakage-wifi/create-pakage-w
   styleUrl: './list-pakage-wifi.component.css'
 })
 export class ListPakageWifiComponent implements OnInit{
+  @Input()wifiZoneId?:string
   PakageWifis$!:Observable<PakageWifiDetail[]>;
     loading$!:Observable<boolean>;
     itemsPerPage: number = 2;
@@ -37,7 +38,8 @@ export class ListPakageWifiComponent implements OnInit{
         }
       );
       this.PakageWifis$=this.pakageWifiService.pakageWifis$;
-      this.pakageWifiService.getPakageWifisFormServer({current_page:1,per_page:this.itemsPerPage});
+      console.log('id pakage wifi : ',this.wifiZoneId)
+      this.pakageWifiService.getPakageWifisFormServer({current_page:1,per_page:this.itemsPerPage},this.wifiZoneId);
       this.pakageWifiService.listen('chan-demo', 'test.sent', (data) => {
         console.log('Notification reçue :', data);
         //this.notifications.push(data);
@@ -52,12 +54,13 @@ export class ListPakageWifiComponent implements OnInit{
         centered:true,
         backdrop:'static',
       });
+      modalRef.componentInstance.wifiZoneId=this.wifiZoneId
       var reloadPgae:Observable<boolean>;
       reloadPgae=modalRef.componentInstance.realod;
       reloadPgae.subscribe(
         (b)=>{
           if(b){
-            this.pakageWifiService.getPakageWifisFormServer(this.paginateData)
+            this.pakageWifiService.getPakageWifisFormServer(this.paginateData,this.wifiZoneId)
           }
         }
       )
@@ -71,10 +74,11 @@ export class ListPakageWifiComponent implements OnInit{
       reloadPgae=modalRef.componentInstance.realod;
       modalRef.componentInstance.typeOperation='update'
       modalRef.componentInstance.pakage_wifi_id=PakageWifi.id;
+      modalRef.componentInstance.wifiZoneId=this.wifiZoneId
       reloadPgae.subscribe(
         (b)=>{
           if(b){
-            this.pakageWifiService.getPakageWifisFormServer(this.paginateData)
+            this.pakageWifiService.getPakageWifisFormServer(this.paginateData,this.wifiZoneId)
           }
         }
       )
@@ -88,7 +92,7 @@ export class ListPakageWifiComponent implements OnInit{
       //this.itemsPerPage$.next(this.itemsPerPage)
       this.paginateData.current_page=event.pageIndex+1
       this.paginateData.per_page=event.pageSize;
-      this.pakageWifiService.getPakageWifisFormServer(this.paginateData)
+      this.pakageWifiService.getPakageWifisFormServer(this.paginateData,this.wifiZoneId)
       console.log(this.paginateData)
       return event;
     }

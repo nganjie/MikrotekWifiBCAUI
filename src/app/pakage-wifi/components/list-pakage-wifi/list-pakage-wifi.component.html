@@ -32,7 +32,7 @@
                     @if(PakageWifis$|async; as PakageWifis){
                         @for(pakageWifi of PakageWifis;track pakageWifi.id;;let i=$index){
                             <tr class="dark:bg-gray-800 dark:border-gray-700" [ngClass]="i%2!==0?'bg-gray-100 border-b':'bg-white border-b'">
-                                <td class="px-6 py-4 primary-color" (click)="updatePakageWifi(pakageWifi)">{{pakageWifi.designation}}</td>
+                                <td class="px-6 py-4 primary-color" routerLink="/admin/pakage-wifis/{{pakageWifi.id}}">{{pakageWifi.designation}}</td>
                                 <td class="px-6 py-4">{{pakageWifi.description}}</td>
                                 <td class="px-6 py-4">{{pakageWifi.zone_wifis.name}}</td>
                                 <td class="px-6 py-4">{{pakageWifi.price}}</td>

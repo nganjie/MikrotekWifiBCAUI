@@ -17,7 +17,8 @@ import { WifiZoneService } from '../../services/wifi-zone.service';
 export class CreateWifiZoneComponent implements OnInit{
   @Output() realod= new EventEmitter<boolean>()
   @Input()typeOperation='create'
-  @Input()wifi_zone_id?:string
+  @Input()wifi_zone_id?:string;
+  loading$!:Observable<boolean>;
   wifiZoneForm!:FormGroup
   btnSubmit=false
   error$!:Observable<ErrorServer>;
@@ -41,6 +42,7 @@ export class CreateWifiZoneComponent implements OnInit{
   initForm(){
     this.error$=this.wifiZoneServices.error$;
     this.confirmSubmit$=this.wifiZoneServices.confirmSubmit$
+    this.loading$=this.wifiZoneServices.loading$;
     this.confirmSubmit$.subscribe(
       bo=>{
         if(this.btnSubmit&&bo)

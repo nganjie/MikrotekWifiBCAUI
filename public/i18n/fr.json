@@ -1,4 +1,6 @@
 {
+    "Withdrawal":"Retrait",
+    "Withdrawals":"Retraits",
     "FirstName":"Nom",
     "Name":"Nom",
     "LastName":"Prenom",
@@ -77,5 +79,12 @@
     "fixed charge":"frais fixes",
     "month":"Mois",
     "unit":"ticket",
-    "enabled sending messages to users":"activé l'envoie de message aux utilisateurs"
+    "enabled sending messages to users":"activé l'envoie de message aux utilisateurs",
+    "receiver number":"numéro de Retrait",
+    "Add":"Ajouter",
+    "do":"Faire un",
+    "money to withdraw":"argent à retirer",
+    "validate the withdrawal":"valider le retrait",
+    "decline the withdrawal":"refuser le retrait",
+    "remark":"remarque"
 }

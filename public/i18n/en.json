@@ -1,4 +1,6 @@
 {
+    "Withdrawal":"Withdrawal",
+    "Withdrawals":"Withdrawals",
     "FirstName":"First Name",
     "Name":"Name",
     "name":"Name",
@@ -91,6 +93,13 @@
     "minimum withdrawal":"minimum withdrawal",
     "sms charge":"sms charge",
     "fixed charge":"fixed charge",
-    "enabled sending messages to users":"enabled sending messages to users"
+    "enabled sending messages to users":"enabled sending messages to users",
+    "receiver number":"receiver number",
+    "Add":"Add",
+    "do":"do",
+    "money to withdraw":"money to withdraw",
+    "validate the withdrawal":"validate the withdrawal",
+    "decline the withdrawal":"decline the withdrawal",
+    "remark":"remark"
 
 }

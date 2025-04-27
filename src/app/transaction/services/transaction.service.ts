@@ -22,11 +22,12 @@ export class TransactionService extends GlobalServices{
   get transactions$():Observable<TransactionDetail[]>{
     return this._transactions$.asObservable();
   }
-  getTransactionsFormServer(paginateD:PaginateData,filter:FormData){
+  getTransactionsFormServer(paginateD:PaginateData,filter:FormData,url:string){
     const headers=this.getHearder();
     this.setLoadStatus(true)
+   // const url =id?`admin/transactions/${id}/tickets`:`admin/transactions/alls`
    let pagin =this.explosePaginationOption(paginateD);
-    this.http.post<ApiPaginatedResponse<TransactionDetail>>(`${environment.apiUrlFirst}/admin/transactions/alls?${pagin}`,filter,headers).pipe(
+    this.http.post<ApiPaginatedResponse<TransactionDetail>>(`${environment.apiUrlFirst}/${url}?${pagin}`,filter,headers).pipe(
       map(dataServer=>{
         console.log(dataServer);
         this._transactions$.next(dataServer.data?.data??[])

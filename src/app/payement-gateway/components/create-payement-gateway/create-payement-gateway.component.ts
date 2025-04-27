@@ -16,6 +16,7 @@ export class CreatePayementGatewayComponent implements OnInit {
    @Output() realod= new EventEmitter<boolean>()
     @Input()typeOperation='create'
     @Input()pakage_wifi_id?:string
+    loading$!:Observable<boolean>;
     payementGatewayForm!:FormGroup
     btnSubmit=false
     error$!:Observable<ErrorServer>;
@@ -38,6 +39,7 @@ export class CreatePayementGatewayComponent implements OnInit {
     }
     initForm(){
       this.error$=this.payementGatewayServices.error$;
+      this.loading$=this.payementGatewayServices.loading$;
       this.confirmSubmit$=this.payementGatewayServices.confirmSubmit$
       this.confirmSubmit$.subscribe(
         bo=>{

@@ -1,0 +1,134 @@
+<div class="container">
+    <div class="page-inner">
+      <div
+        class="mb-3"
+      >
+        <div>
+          <h3 class="fw-bold mb-3">Dashboard</h3>
+        </div>
+        <div class="ms-md-auto">
+          <div *ngIf="!ticketWifiId" class="flex mb-2" style="width: 100%;" [formGroup]="statForm">
+            <div *ngIf="isAdmin" class="flex mr-2" >
+              <label class="mr-2" for="client_id" >{{"User"|translate}}: </label>
+              <select class="form-select" name="client_id" id="client_id" [formControl]="userCtrl">
+      
+                <option [value]="null">______</option>
+                @if(users$|async;as users){
+                @for(item of users;track $index){
+                <option [value]="item.id">{{item.first_name}}</option>
+                }@empty {
+                <option>empty data</option>
+                }
+                }
+      
+      
+              </select>
+            </div>
+            <div *ngIf="!pakageWifiId" class="flex mr-2" >
+                <label class="mr-2" for="client_id" >{{"WifiZone"|translate}}: </label>
+                <select class="form-select" name="client_id" id="client_id" [formControl]="zoneWifiCtrl">
+        
+                  <option [value]="null">______</option>
+                  @if(wifiZones$|async;as wifiZones){
+                  @for(item of wifiZones;track $index){
+                  <option [value]="item.id">{{item.name}}</option>
+                  }@empty {
+                  <option>empty data</option>
+                  }
+                  }
+        
+        
+                </select>
+              </div>
+              <div *ngIf="!pakageWifiId" class="flex  mr-2" >
+                <label class="mr-2" for="client_id" >{{"PakageWifi"|translate}}: </label>
+                <select class="form-select" name="client_id" id="client_id" [formControl]="pakageWifiCtrl">
+        
+                  <option [value]="null">______</option>
+                  @if(pakageWifis$|async;as pakageWifi){
+                  @for(item of pakageWifi;track $index){
+                  <option [value]="item.id">{{item.designation}}</option>
+                  }@empty {
+                  <option>empty data</option>
+                  }
+                  }
+        
+        
+                </select>
+              </div>
+            <div class="flex mr-2">
+                <label class="mr-2" for="day_intervale">{{"period"|translate}}: </label>
+                <select class="form-select" name="day_intervale" id="day_intervale" [formControl]="periodCtrl">
+                  <option [value]="null">______</option>
+                  @for(data of dataPeriod;track data){
+                  <option [value]="data">{{data|translate}}</option>
+                  }
+                </select>
+              </div>
+              <div class="flex  mr-2" >
+                <label class="mr-2" for="client_id" >{{"Group By"|translate}}: </label>
+                <select class="form-select"  id="client_id" [formControl]="groupByCtrl">
+        
+                  <option [value]="null">______</option>
+                  @for(item of dataGroupBy;track $index){
+                    <option [value]="item">{{item|translate}}</option>
+                    }@empty {
+                    <option>empty data</option>
+                    }
+        
+        
+                </select>
+              </div>
+              
+        </div>
+        </div>
+      </div>
+      @if(loading$|async){
+        <mat-spinner></mat-spinner>
+    }
+      <div class="row">
+        @if(dashboard$|async;as dashboard){
+          @for (item of dashboard.totalAmount; track $index) {
+            <div class="col-sm-6 col-md-3">
+              <div class="card card-stats card-round">
+                <div class="card-body">
+                  <div class="row align-items-center">
+                    <div class="col-icon">
+                      <div
+                        class="icon-big text-center {{getIconColor(item.status)}} bubble-shadow-small"
+                      >
+                      <i class="fa-solid fa-dollar-sign"></i>
+                      </div>
+                    </div>
+                    <div class="col col-stats ms-3 ms-sm-0">
+                      <div class="numbers">
+                        <p class="card-category">{{item.status}}</p>
+                        <h4 class="card-title">{{item.total_amount|currency:'XAF'}}</h4>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+          
+        }
+      </div>
+      <div class="row">
+        <div class="col-md">
+          <div class="card card-round">
+            <div class="card-header">
+              <div class="card-head-row">
+                <div class="card-title">{{"Statistics"|translate}}</div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="chart-container" style="min-height: 375px">
+                <canvas #wifiChart width="600" height="400"></canvas>
+              </div>
+              <div id="myChartLegend"></div>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>

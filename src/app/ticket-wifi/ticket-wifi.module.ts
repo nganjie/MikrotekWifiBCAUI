@@ -11,12 +11,15 @@ import { createTranslateLoader } from '../app.module';
 import { SharedModule } from '../shared/shared.module';
 import { LanguageService } from '../services/language/language.service';
 import { TicketWifiService } from './service/ticket-wifi.service';
+import { DetailTicketWifiComponent } from './components/detail-ticket-wifi/detail-ticket-wifi.component';
+import { TransactionModule } from '../transaction/transaction.module';
 
 
 @NgModule({
   declarations: [
     ListTicketWifiComponent,
-    ImportTicketWifiComponent
+    ImportTicketWifiComponent,
+    DetailTicketWifiComponent
   ],
   imports: [
     CommonModule,
@@ -30,7 +33,11 @@ import { TicketWifiService } from './service/ticket-wifi.service';
           }
         }
         ),
-        SharedModule
+        SharedModule,
+        TransactionModule
+  ],
+  exports:[
+    ListTicketWifiComponent
   ],
   providers:[
       LanguageService,

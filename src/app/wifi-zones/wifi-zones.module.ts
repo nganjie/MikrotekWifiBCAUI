@@ -10,12 +10,16 @@ import { SharedModule } from '../shared/shared.module';
 import { CreateWifiZoneComponent } from './components/create-wifi-zone/create-wifi-zone.component';
 import { LanguageService } from '../services/language/language.service';
 import { WifiZoneService } from './services/wifi-zone.service';
+import { DetailWifiZonesComponent } from './components/detail-wifi-zones/detail-wifi-zones.component';
+import { PakageWifiModule } from '../pakage-wifi/pakage-wifi.module';
+import { TransactionModule } from '../transaction/transaction.module';
 
 
 @NgModule({
   declarations: [
     ListZoneWifiComponent,
-    CreateWifiZoneComponent
+    CreateWifiZoneComponent,
+    DetailWifiZonesComponent
   ],
   imports: [
     CommonModule,
@@ -29,7 +33,9 @@ import { WifiZoneService } from './services/wifi-zone.service';
       }
     }
     ),
-    SharedModule
+    SharedModule,
+    PakageWifiModule,
+    TransactionModule
   ],
   providers:[
     LanguageService,

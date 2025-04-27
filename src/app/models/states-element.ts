@@ -1,5 +1,5 @@
-import { OrganisationSearchType } from "../organisation/enums/organisation-search-type.enum";
 
+/*
 export const stateElements:{
     value:OrganisationSearchType,
     label:string
@@ -20,4 +20,4 @@ export const stateElements:{
     {value:OrganisationSearchType.UPDATE,label:'Mis à jour'},
     {value:OrganisationSearchType.REJECTED,label:'Rejeté'},
     {value:OrganisationSearchType.Used,label:'Utilisé'}
-]
+]*/

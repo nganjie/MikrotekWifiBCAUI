@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -14,6 +15,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   declarations: [],
   imports: [
     CommonModule,
+    NgbTooltip,
   ],
   exports:[
     MatPaginatorModule,
@@ -24,6 +26,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatInputModule,
     MatButtonModule,
     MatProgressSpinnerModule,
+    NgbTooltip,
   ]
 })
 export class SharedModule { }

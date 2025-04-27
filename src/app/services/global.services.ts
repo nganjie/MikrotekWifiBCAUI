@@ -4,6 +4,8 @@ import { ErrorServer } from "../models/error-server.model";
 import { MatSnackBar, MatSnackBarConfig } from "@angular/material/snack-bar";
 import { User } from "../models/user.model";
 import { PaginateData } from "../models/paginate-data.model";
+import { ModuleTypeEnum } from "../emuns/module-tyoe.enum";
+import { searchOption } from "../models/search-option.model";
 
 
 
@@ -44,6 +46,16 @@ export class GlobalServices{
         let options=`per_page=${data.per_page}&page=${data.current_page}`;
         return options;
     }
+    exploseSearchOption(searchOptions:searchOption[]):string{
+        let stringSearch='';
+        searchOptions.forEach(s=>{
+            if(s.value){
+                stringSearch+=`&${s.name}=${s.value}`;
+            }
+        })
+        console.log(stringSearch)
+        return stringSearch;
+      }
     setConfirmSubmit(confirm:boolean){
         this._confirmSubmit$.next(true);
     }
@@ -74,11 +86,18 @@ export class GlobalServices{
     get loading$():Observable<boolean>{
         return this._loading$.asObservable();
     }
-    getHearder():{headers:HttpHeaders}
+    //'Content-Type', 'multipart/form-data'
+    getHearder(multipart:string|null=null):{headers:HttpHeaders}
     {
         const token =localStorage.getItem('appToken');
         if(token){
-            const header =new HttpHeaders().set("Authorization",this.tokenType+token);
+            /*let headert =new HttpHeaders().set("Authorization",this.tokenType+token);
+            if(multipart=='mul'){
+                headert.set('Content-Type', 'multipart/form-data')
+            }else{
+
+            }*/
+            const header=  multipart=='mul'?new HttpHeaders().set('Content-Type', 'multipart/form-data').set("Authorization",this.tokenType+token):new HttpHeaders().set("Authorization",this.tokenType+token);
         const headers= {headers:header};
         return {headers:header};
         }else{

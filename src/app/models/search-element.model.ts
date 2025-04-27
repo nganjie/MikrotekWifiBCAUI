@@ -42,6 +42,12 @@ export function endDate(value:any):searchOption{
 export function orgId(value:any):searchOption{
     return {name:'org_id',value:value}
 }
+export function userSearchId(value:any):searchOption{
+    return {name:'user_id',value:value}
+}
+export function zoneWifirSearchId(value:any):searchOption{
+    return {name:'zone_wifi_id',value:value}
+}
 export function Empty(value:any):searchOption{
     return {name:'empty',value:value}
 }

@@ -6,7 +6,7 @@ export interface User {
     number: string;
     city: string;
     is_admin: number;
-    is_activate: number;
+    is_activate: boolean;
     email: string;
     email_verified_at?: any;
     profile?: any;

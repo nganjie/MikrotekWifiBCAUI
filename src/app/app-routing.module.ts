@@ -15,6 +15,9 @@ const routes: Routes = [
      {path:'transactions',loadChildren:()=>import('./transaction/transaction.module').then(m=>m.TransactionModule)},
      {path:'subscriptions',loadChildren:()=>import('./subscription-user/subscription-user.module').then(m=>m.SubscriptionUserModule)},
      {path:'payement-gateways',loadChildren:()=>import('./payement-gateway/payement-gateway.module').then(m=>m.PayementGatewayModule)},
+     {path:'withdrawals',loadChildren:()=>import('./withdrawal/withdrawal.module').then(m=>m.WithdrawalModule)},
+     {path:'users',loadChildren:()=>import('./users/users.module').then(m=>m.UsersModule)},
+     {path:'dashboards',loadChildren:()=>import('./dashboard/dashboard.module').then(m=>m.DashboardModule)},
      { path: '', redirectTo: '', pathMatch: 'full' },
     ]
   },

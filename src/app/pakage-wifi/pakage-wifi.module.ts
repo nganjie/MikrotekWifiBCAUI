@@ -11,26 +11,34 @@ import { SharedModule } from '../shared/shared.module';
 import { LanguageService } from '../services/language/language.service';
 import { CreatePakageWifiComponent } from './components/create-pakage-wifi/create-pakage-wifi.component';
 import { PakageWifiService } from './services/pakage-wifi.service';
+import { DetailPakageWifiComponent } from './components/detail-pakage-wifi/detail-pakage-wifi.component';
+import { TicketWifiModule } from '../ticket-wifi/ticket-wifi.module';
+import { TransactionModule } from "../transaction/transaction.module";
 
 
 @NgModule({
   declarations: [
     ListPakageWifiComponent,
-    CreatePakageWifiComponent
+    CreatePakageWifiComponent,
+    DetailPakageWifiComponent
   ],
   imports: [
     CommonModule,
     PakageWifiRoutingModule,
     MatIconModule,
-        TranslateModule.forRoot({
-          loader:{
-            provide:TranslateLoader,
-            useFactory:(createTranslateLoader),
-            deps:[HttpClient]
-          }
+    TranslateModule.forRoot({
+        loader: {
+            provide: TranslateLoader,
+            useFactory: (createTranslateLoader),
+            deps: [HttpClient]
         }
-        ),
-        SharedModule
+    }),
+    SharedModule,
+    TicketWifiModule,
+    TransactionModule
+],
+  exports:[
+    ListPakageWifiComponent
   ],
   providers:[
     LanguageService,

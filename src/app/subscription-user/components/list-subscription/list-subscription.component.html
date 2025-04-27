@@ -15,7 +15,7 @@
                         <label class="form-check-label" for="flexCheckChecked">
                             {{"enabled sending messages to users"|translate}}
                           </label>
-                        <input class="form-check-input" type="checkbox" [value]="pakageUser.is_send_message" id="flexCheckChecked"  checked (click)="isEntityCheck($event)">
+                        <input class="form-check-input" type="checkbox" [value]="pakageUser.is_send_message" id="flexCheckChecked" [checked]="pakageUser.is_send_message?'checked':null" (click)="isEntityCheck($event)">
                       </div>
                     <div class="flex flex-col mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white mr-12">
                         <p class="primary-color">{{"current subscription"|translate}}</p>

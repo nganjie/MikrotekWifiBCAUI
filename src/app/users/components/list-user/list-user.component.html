@@ -1,0 +1,74 @@
+<div>
+    <div class="flex mb-20 mt-10">
+        <div class="w-1/2">
+            <h1>{{"user"|translate}}s</h1>
+        </div>
+    </div>
+    
+    <div>
+        @if(loading$|async){
+            <mat-spinner></mat-spinner>
+        }
+        <div class="table-responsive">
+            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400" >
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr >
+                        
+                        <th scope="col" class="px-6 py-3">{{"Name"|translate}}</th>
+                        <th scope="col" class="px-6 py-3">{{"country"|translate}}</th>
+                        <th scope="col" class="px-6 py-3">{{"city"|translate}}</th>
+                        <th scope="col" class="px-6 py-3">{{"email"|translate}}</th>
+                        <th scope="col" class="px-6 py-3">{{"number"|translate}}</th>
+                        <th scope="col" class="px-6 py-3">{{"state"|translate}}</th>
+                        <th scope="col" class="px-6 py-3">{{"create at"|translate}}</th>
+                        <th scope="col" class="px-6 py-3">Actions</th>
+                        
+                        
+                    </tr>
+                </thead>
+                
+                <tbody>
+                    @if(users$|async; as users){
+                        @for(user of users;track user.id;;let i=$index){
+                            <tr class="dark:bg-gray-800 dark:border-gray-700" [ngClass]="i%2!==0?'bg-gray-100 border-b':'bg-white border-b'">
+                                <td class="px-6 py-4 primary-color" >{{user.first_name}}-{{user.last_name}}</td>
+                                <td class="px-6 py-4">{{user.country}}</td>
+                                <td class="px-6 py-4">{{user.city}}</td>
+                                <td class="px-6 py-4">{{user.email}}</td>
+                                <td class="px-6 py-4">{{user.number}}</td>
+                                <td class="px-6 py-4">
+                                    <span class="label badge" [ngClass]="{'badge-danger':['deactive','deleted','canceled','rejected'].includes(user.state),'badge-warning':['processing','pending'].includes(user.state),'badge-success':user.state=='created','badge-primary':['completed','active','approved','collected'].includes(user.state)}">{{user.state}}</span>
+                                  </td>
+                                <td class="px-6 py-4">{{user.created_at|date:'medium'}}</td>
+                                
+                                <td class="btn-action">
+                                    <button class="btn" [ngClass]="user.is_activate?'btn-success':'btn-warning'">
+                                        <div class="form-check form-switch">
+                                          <input class="form-check-input" 
+                                                 style="padding-left: 1px;padding-right: 1px;"
+                                                 type="checkbox"
+                                                 role="switch"
+                                                 [id]="user.id"
+                                                 [checked]="user.is_activate?'checked':null"
+                                                 (click)="activeUser(user,$event)">
+                                        </div>
+                                      </button>
+                                    <button class="btn btn-outline-primary btn-danger" (click)="deleteuser(user)"><i class="fa fa-trash btn-danger"></i></button>
+                                </td>
+                            </tr>
+                        }
+                    }
+                        
+                
+                </tbody>
+            </table>
+        </div>
+        
+        <mat-paginator #paginator [length]="totaElement" (page)="pageEvent=pageChange($event)"
+        [pageSize]="itemsPerPage"
+       [pageSizeOptions]="pageArray"
+       
+       aria-label="Select page">
+       </mat-paginator>
+    </div>
+</div>

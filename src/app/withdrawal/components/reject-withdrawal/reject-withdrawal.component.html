@@ -1,0 +1,26 @@
+<div class=" justify-content-center">
+    <div class="modal-header">
+        <h5 class="modal-title">{{"decline the withdrawal"|translate}}</h5>
+        <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn-close"  aria-label="Close" (click)="dismiss()"></button>
+    </div>
+    
+    <div class="body p-4">
+        @if(error$|async;as error){
+            <span class="text-danger">{{error.message}}</span>
+        }
+        <form [formGroup]="withdrawalForm">
+            <!-- Name input -->
+            <div  class="form-outline mb-4">
+                <label class="form-label" for="remark">{{"remark"|translate}}</label>
+                <textarea class="form-control" id="remark" rows="3" formControlName="remark"></textarea>
+                @if(btnSubmit&&withdrawalForm.invalid&&withdrawalForm.get('remark')?.invalid)
+                    {
+                        <span class="text-danger">{{getFormControlErrorText(withdrawalForm.get('remark'))}}</span>
+                    }
+            </div>
+        </form>
+        <div  class="form-outline mb-4">
+            <button type="submit" style="margin-top :25px;width: 100%;" class="btn btn-primary" (click)="submitForm()"> {{"decline"|translate|titlecase}} </button>
+        </div>
+    </div>
+</div>

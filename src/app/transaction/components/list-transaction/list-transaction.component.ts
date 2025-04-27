@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, BehaviorSubject, map } from 'rxjs';
@@ -13,6 +13,7 @@ import { WifiZoneDetail } from '../../../wifi-zones/models/wifi-zone-detail.mode
 import { PakageWifiDetail } from '../../../pakage-wifi/models/pakage-wifi-detail.model';
 import { WifiZoneService } from '../../../wifi-zones/services/wifi-zone.service';
 import { PakageWifiService } from '../../../pakage-wifi/services/pakage-wifi.service';
+import { dataStatusEnum } from '../../../models/status.enum';
 
 @Component({
   selector: 'app-list-transaction',
@@ -20,6 +21,10 @@ import { PakageWifiService } from '../../../pakage-wifi/services/pakage-wifi.ser
   styleUrl: './list-transaction.component.css'
 })
 export class ListTransactionComponent implements OnInit{
+  @Input()ticketWifiId?:string
+  @Input()pakageWifiId?:string
+  @Input()zoneWifiId?:string
+  url!:string;
   transactions$!:Observable<TransactionDetail[]>;
       loading$!:Observable<boolean>;
       itemsPerPage: number = 2;
@@ -35,8 +40,10 @@ export class ListTransactionComponent implements OnInit{
       pakageWifis$!:Observable<PakageWifiDetail[]>
       zoneWifiCtrl!:FormControl;
       pakageWifiCtrl!:FormControl;
+      dataStatus=dataStatusEnum
       periodCtrl!:FormControl;
       startCtrl!:FormControl;
+      statusCtrl!:FormControl;
       endCtrl!:FormControl;
       itemsPerPage$=new BehaviorSubject<number>(this.itemsPerPage)
       page$ =new BehaviorSubject<number>(1);
@@ -53,6 +60,8 @@ export class ListTransactionComponent implements OnInit{
     
           }
         );
+
+        console.log('ticket wifi ,')
         this.wifiZones$=this.wifiZoneService.wifiZones$;
         this.pakageWifis$=this.pakageWifiService.pakageWifis$;
         this.wifiZoneService.getWifiZonesFullFormServer()
@@ -64,15 +73,25 @@ export class ListTransactionComponent implements OnInit{
         this.endCtrl=this.formBuilder.control('');
         this.zoneWifiCtrl=this.formBuilder.control('');
         this.pakageWifiCtrl=this.formBuilder.control('');
+        this.statusCtrl=this.formBuilder.control('');
         this.statForm=this.formBuilder.group({
-          zone_wifi:[null],
-          pakage_wifi:[null],
+          zone_wifi:[this.zoneWifiId],
+          pakage_wifi:[this.pakageWifiId],
           status:[null],
           period:[null],
           start_date:this.startCtrl,
           end_date:this.endCtrl,
         });
-        this.transactionService.getTransactionsFormServer({current_page:1,per_page:this.itemsPerPage},this.statForm.value);
+        if(this.ticketWifiId){
+          this.url =`admin/transactions/${this.ticketWifiId}/tickets`
+        }else if(this.pakageWifiId){
+          this.url =`admin/transactions/${this.pakageWifiId}/pakage-wifi`
+        }else if(this.zoneWifiId){
+          this.url =`admin/transactions/${this.zoneWifiId}/zone-wifi`
+        }else{
+          this.url=`admin/transactions/alls`
+        }
+        this.transactionService.getTransactionsFormServer({current_page:1,per_page:this.itemsPerPage},this.statForm.value,this.url);
         this.initFilter()
       }
       initFilter(){
@@ -91,11 +110,11 @@ export class ListTransactionComponent implements OnInit{
               } else {
                 this.isCustomPeriod = false;
                 console.log(this.statForm.value)
-                this.transactionService.getTransactionsFormServer(this.paginateData,val);
+                this.transactionService.getTransactionsFormServer(this.paginateData,val,this.url);
               }
     
             } else if (value == null) {
-              this.transactionService.getTransactionsFormServer(this.paginateData,val);
+              this.transactionService.getTransactionsFormServer(this.paginateData,val,this.url);
             }
           })
         ).subscribe()
@@ -108,11 +127,11 @@ export class ListTransactionComponent implements OnInit{
             const val = this.statForm.value
             val.zone_wifi = value
             if (this.zoneWifiCtrl.value && value) {
-              this.transactionService.getTransactionsFormServer(this.paginateData,val);
+              this.transactionService.getTransactionsFormServer(this.paginateData,val,this.url);
               this.pakageWifis$=this.wifiZoneService.getPakageWifisFormServer(value);
               this.pakageWifis$.subscribe();
             } else if (value == null) {
-              this.transactionService.getTransactionsFormServer(this.paginateData,val);
+              this.transactionService.getTransactionsFormServer(this.paginateData,val,this.url);
     
             }
           })
@@ -126,9 +145,25 @@ export class ListTransactionComponent implements OnInit{
             const val = this.statForm.value
             val.pakage_wifi = value
             if (this.pakageWifiCtrl.value && value) {
-              this.transactionService.getTransactionsFormServer(this.paginateData,val);
+              this.transactionService.getTransactionsFormServer(this.paginateData,val,this.url);
             } else if (value == null) {
-              this.transactionService.getTransactionsFormServer(this.paginateData,val);
+              this.transactionService.getTransactionsFormServer(this.paginateData,val,this.url);
+    
+            }
+          })
+        ).subscribe()
+        this.statusCtrl.valueChanges.pipe(
+          map(value => {
+            if (this.statusCtrl.value && value == 'null') {
+              this.statusCtrl.setValue(null)
+            }
+            console.log(value)
+            const val = this.statForm.value
+            val.status = value
+            if (this.statusCtrl.value && value) {
+              this.transactionService.getTransactionsFormServer(this.paginateData,val,this.url);
+            } else if (value == null) {
+              this.transactionService.getTransactionsFormServer(this.paginateData,val,this.url);
     
             }
           })
@@ -140,7 +175,7 @@ export class ListTransactionComponent implements OnInit{
             if (value && this.endCtrl.value) {
               const val = this.statForm.value
               val.start = value
-              this.transactionService.getTransactionsFormServer(this.paginateData,val);
+              this.transactionService.getTransactionsFormServer(this.paginateData,val,this.url);
     
             }
           })
@@ -152,7 +187,7 @@ export class ListTransactionComponent implements OnInit{
             if (value && this.startCtrl.value) {
               const val = this.statForm.value
               val.end = value
-              this.transactionService.getTransactionsFormServer(this.paginateData,val);
+              this.transactionService.getTransactionsFormServer(this.paginateData,val,this.url);
     
             }
           })
@@ -174,7 +209,7 @@ export class ListTransactionComponent implements OnInit{
         //this.itemsPerPage$.next(this.itemsPerPage)
         this.paginateData.current_page=event.pageIndex+1
         this.paginateData.per_page=event.pageSize;
-        this.transactionService.getTransactionsFormServer(this.paginateData,this.statForm.value)
+        this.transactionService.getTransactionsFormServer(this.paginateData,this.statForm.value,this.url)
         console.log(this.paginateData)
         return event;
       }

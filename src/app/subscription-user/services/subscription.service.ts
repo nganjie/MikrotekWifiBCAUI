@@ -35,23 +35,24 @@ export class SubscriptionService extends GlobalServices{
       ).subscribe()
     }
     createpakage(form:FormGroup) {
-  
+      this.setLoadStatus(true)
       this.http.post<ApiResponse<any>>(`${environment.apiUrlFirst}/admin/pakage/create`,form.value,this.headers).pipe(
           tap(data=>{
               console.log(data)
               if(data.success){
                   console.log(data)
                 this.setSnackMesage('Pakage create successfully')
-                 this.setLoadStatus(true)
+                 this.setLoadStatus(false)
                  this.setConfirmSubmit(true)
               }else{
-                  this._error$.next({status:false,message:data.error})
+                  this._error$.next({status:false,message:data.message})
               }
               
           })
       ).subscribe()
     }
     updatepakageUserMessage(send_message:boolean){
+      this.setLoadStatus(true)
       const headers=this.getHearder();
       this.http.post<ApiResponse<PakageUserDetail>>(`${environment.apiUrlFirst}/admin/pakage/is-sms`,{
         is_send_message:send_message
@@ -60,23 +61,26 @@ export class SubscriptionService extends GlobalServices{
           if(data.success){
             console.log(data)
           this.setSnackMesage('Pakage Update successfully')
+          this.setLoadStatus(false)
            this.setConfirmSubmit(true)
         }else{
-            this._error$.next({status:false,message:data.error})
+            this._error$.next({status:false,message:data.message})
         }
         })
       ).subscribe()
     }
     updatepakage(form:FormGroup,pakage_id:string){
       const headers=this.getHearder();
+      this.setLoadStatus(true)
       this.http.put<ApiResponse<PakageDetail>>(`${environment.apiUrlFirst}/admin/pakage/${pakage_id}/update`,form.value,headers).pipe(
         tap(data=>{
           if(data.success){
             console.log(data)
+            this.setLoadStatus(false)
           this.setSnackMesage('Pakage Update successfully')
            this.setConfirmSubmit(true)
         }else{
-            this._error$.next({status:false,message:data.error})
+            this._error$.next({status:false,message:data.message})
         }
         })
       ).subscribe()
@@ -90,7 +94,7 @@ export class SubscriptionService extends GlobalServices{
           this.setSnackMesage('Pakage Subscribed successfully')
            this.setConfirmSubmit(true)
         }else{
-            this._error$.next({status:false,message:data.error})
+            this._error$.next({status:false,message:data.message})
         }
         })
       ).subscribe()
@@ -111,7 +115,7 @@ export class SubscriptionService extends GlobalServices{
             this.setSnackMesage('pakage Deleted successfully')
              this.setConfirmSubmit(true)
           }else{
-              this._error$.next({status:false,message:data.error})
+              this._error$.next({status:false,message:data.message})
           }
           })
         ).subscribe()

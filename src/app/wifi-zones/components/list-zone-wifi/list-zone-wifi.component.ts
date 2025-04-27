@@ -69,7 +69,7 @@ export class ListZoneWifiComponent implements OnInit{
             trs+=` <tr>
             <td data-label="Forfait">${pak.designation}</td>
             <td data-label="Prix">${pak.price}</td>
-            <td data-label="Action"><button class="btn-pay" id="${environment.apiUrlFirst}/payement-gateway/${pak.id}/init-buy-ticket">Payer</button></td>
+            <td data-label="Action"><button class="btn-pay" id="https://ad47-154-72-170-161.ngrok-free.app/api/payement-gateway/${pak.id}/init-buy-ticket">Payer</button></td>
           </tr>`
           });
           console.log(trs);
@@ -80,6 +80,80 @@ export class ListZoneWifiComponent implements OnInit{
       padding: 0;
       background-color: #f4f4f9;
     }
+    .open-btn {
+      margin: 100px auto;
+      display: block;
+      padding: 10px 20px;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .modal {
+      display: none; /* cachée par défaut */
+      position: fixed;
+      z-index: 999;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.5);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 400px;
+      position: relative;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    .modal-content h2 {
+      margin-bottom: 1rem;
+    }
+
+    .modal-content input[type="tel"] {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+      margin-bottom: 1rem;
+    }
+
+    .modal-content button {
+      width: 100%;
+      padding: 10px;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 1px;
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #666;
+    }
+    /**/
 
     .container {
       max-width: 800px;
@@ -176,7 +250,34 @@ export class ListZoneWifiComponent implements OnInit{
         font-size: 1.5rem;
       }
     }
+      .loader {
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #3498db;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+  display: none; /* cacher par défaut */
+  margin: 20px auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
   </style>
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <button class="close-btn" id="closeModal">&times;</button>
+      <div id="loader" class="loader"></div>
+      <h2>Numéro de téléphone</h2>
+      <form id="phoneForm">
+        <input name="id_url" hidden>
+        <input type="tel" name="phone" placeholder="Ex: +237 6XX XXX XXX" required>
+        <button type="submit">Envoyer</button>
+      </form>
+    </div>
+  </div>
   <div class="container">
     
     <h1>Nos Forfaits</h1>
@@ -193,18 +294,82 @@ export class ListZoneWifiComponent implements OnInit{
       </tbody>
     </table>
     <script>
-        const btns=document.querySelectorAll(".btn-pay");
-        btns.forEach((elt)=>{
-            //console.log(elt)
-            elt.addEventListener('click',(e)=>{
-                console.log(elt.id)
-            fetch(elt.id,{
+       //  const modal = document.getElementById('modal');
+       const params = new URLSearchParams(window.location.search);
+
+// Extraire les variables
+const tusername = params.get('username');
+const tpassword = params.get('password');
+if(tusername&&tpassword){
+  document.sendin.username.value =tusername;
+		document.sendin.password.value = hexMD5('$(chap-id)'+tpassword +'$(chap-challenge)');
+		document.sendin.submit();
+}
+
+console.log("Nom d'utilisateur :", tusername);
+console.log("Mot de passe :", tpassword);
+    const openBtn = document.getElementById('openModal');
+    const closeBtn = document.getElementById('closeModal');
+    const phoneForm=document.getElementById('phoneForm');
+   let urlt= document.getElementsByName('id_url')[0];
+   console.log('urlt : ',urlt)
+   //urlt.value='un monde de merde';
+   //.log('urlt : ',urlt.value)
+   /* openBtn.addEventListener('click', () => {
+      modal.classList.add('active');
+    });*/
+
+    closeBtn.addEventListener('click', () => {
+    document.getElementById("loader").style.display = "none";
+      modal.classList.remove('active');
+    });
+
+    // Optionnel : fermer en cliquant à l'extérieur de la boîte
+    window.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.classList.remove('active');
+      }
+    });
+
+    // Exemple de traitement du formulaire
+    document.getElementById('phoneForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const phone = this.phone.value;
+      console.log('urlt : ',urlt.value)
+      fetch(urlt.value,{
                 method:"POST",
+                body: JSON.stringify({ numero: phone }),
+                headers: myHeaders,
                })
                .then(response => response.json())
                .then((data)=>{
                 console.log(data)
-               }).catch(err => console.log(err))
+                //payement_link
+                if(data.success){
+                console.log(data.success)
+                  window.location.href = data.data['payement_link']
+                }else{
+                alert(data.message)
+              }
+               }).catch(err =>{
+                alert(err.message)
+                })
+      
+      console.log("Numéro soumis :", phone);
+      //modal.classList.remove('active');
+      //alert("Numéro envoyé : " + phone);
+    });
+        const btns=document.querySelectorAll(".btn-pay");
+        //let formData=
+        const myHeaders = new Headers();
+myHeaders.append("Content-Type", "application/json");
+        btns.forEach((elt)=>{
+            //console.log(elt)
+            elt.addEventListener('click',(e)=>{
+                modal.classList.add('active');
+                urlt.value=elt.id
+                console.log(elt.id)
+            
             })
         })
     </script>

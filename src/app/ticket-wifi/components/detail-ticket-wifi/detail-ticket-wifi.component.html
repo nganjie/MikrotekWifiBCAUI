@@ -1,0 +1,69 @@
+<div class="row">
+    <div class="col-lg-12">
+      <div class="tabs-container" style="width: 100%;">
+          <ul class="nav nav-tabs ul-res" id="nav-tab" role="tablist">
+              <li [ngClass]="tabs=='details'?'nav-link active':''" (click)="changeSection('details',$event)"><a data-toggle="tab" href="#tab-1" class=""> {{"details"|translate}}</a></li>
+              <li [ngClass]="tabs=='ticketWifi'?' nav-link active':''" class="" (click)="changeSection('ticketWifi',$event)"><a data-toggle="tab" href="#tab-2" class="">{{"transactions"|translate}}</a></li>
+          </ul>
+          @if(ticketWifi$ |async; as ticketWifi){
+          <div class="tab-content" *ngIf="tabs==='details'">
+              <div id="tab-1" class="tab-pane active">
+                  <div class="">
+                    <div class="bg-white overflow-hidden shadow rounded-lg border" style="margin-top:20px; padding:10px;">
+  
+                      <h5>{{ticketWifi.username}} - {{"Details"|translate}}</h5>
+                      <!--<h5>{{"Address"|translate}} : </h5>-->
+                      <table class="table tab-elt">
+                        <tbody>
+                          <tr>
+                            <th scope="col">{{"username"|translate}}</th>
+                            <td>{{ticketWifi.username}}</td>
+                            <th scope="col">{{"Update_at"|translate}}</th>
+                            <td>{{ticketWifi.updated_at|date:'short'}}</td>
+                            <th scope="col">{{"wallet"|translate}}</th>
+                            <td>{{ticketWifi.updated_at}}</td>
+                          </tr>
+                          <tr>
+                            <th scope="col">{{"password"|translate}}</th>
+                            <td>{{ticketWifi.password}}</td>
+                            <th scope="col">{{"profile"|translate}}</th>
+                            <td>{{ticketWifi.profile}}</td>
+                            <th scope="col">{{"time_limit"|translate}}</th>
+                            <td>{{ticketWifi.time_limit}}</td>
+                          </tr>
+                          <tr>
+                            <th scope="col">{{"data limit"|translate}}</th>
+                            <td>{{ticketWifi.data_limit}}</td>
+                            <th scope="col">{{"comment"|translate}}</th>
+                            <td>{{ticketWifi.comment}}</td>
+                            <th scope="col">{{"state"|translate}}</th>
+                            <td>{{ticketWifi.state}}</td>
+                            
+                          </tr>
+                          <tr>
+                            <th scope="col">{{"pakage wifi"|translate}}</th>
+                            <td>{{ticketWifi.pakage_wifi.designation}}</td>
+                            <th scope="col">{{"Zone wifis"|translate}}</th>
+                            <td>{{ticketWifi.pakage_wifi.zone_wifis.name}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+              </div>
+        
+          </div>
+          <div id="tab-2" class="tab-pane">
+            <div class="info-users" *ngIf="tabs==='ticketWifi'">
+              <app-list-transaction [ticketWifiId]="ticketWifi.id"></app-list-transaction>
+            </div>
+        </div>
+          
+  
+        }
+  
+  
+      </div>
+  </div>
+  </div>
+  

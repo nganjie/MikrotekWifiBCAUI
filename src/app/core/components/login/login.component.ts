@@ -14,6 +14,7 @@ import { ErrorServer } from '../../../models/error-server.model';
 export class LoginComponent implements OnInit{
   loginForm!:FormGroup;
   btnSubmit =false;
+  loading$!:Observable<boolean>;
   userName !:FormControl
   password !:FormControl;
   login$!:Observable<boolean>;
@@ -24,6 +25,7 @@ export class LoginComponent implements OnInit{
   constructor(private formBuilder:FormBuilder,private authService:AuthentificateService,private router:Router){}
   ngOnInit(): void {
     this.login$=this.authService.login$;
+    this.loading$=this.authService.loading$
     this._error$=this.authService.error$;
     this._error$.subscribe(
       (b)=>{

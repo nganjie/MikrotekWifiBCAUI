@@ -4,7 +4,7 @@
             <h1>{{"Wi-Fi zone"|translate}}</h1>
         </div>
         <div class="w-1/2">
-            <button  class="btn btn-primary btn-round" (click)="createWifiZone()">{{"Add Wifi-Zone"|translate}}</button>
+            <button  class="btn btn-primary btn-round" (click)="createWifiZone()">{{"Add"|translate}} {{"Wi-Fi zone"|translate}}</button>
         </div>
     </div>
     
@@ -34,12 +34,14 @@
                     @if(wifiZones$|async; as wifiZones){
                         @for(wifiZone of wifiZones;track wifiZone.id;;let i=$index){
                             <tr class="dark:bg-gray-800 dark:border-gray-700" [ngClass]="i%2!==0?'bg-gray-100 border-b':'bg-white border-b'">
-                                <td class="px-6 py-4 primary-color" (click)="updateWifiZone(wifiZone)">{{wifiZone.name}}</td>
+                                <td class="px-6 py-4 primary-color" [routerLink]="wifiZone.id">{{wifiZone.name}}</td>
                                 <td class="px-6 py-4">{{wifiZone.city}}</td>
                                 <td class="px-6 py-4">{{wifiZone.captive_gate}}</td>
                                 <td class="px-6 py-4">{{wifiZone.is_active_sms}}</td>
                                 <td class="px-6 py-4">{{wifiZone.wallet}}</td>
-                                <td class="px-6 py-4">{{wifiZone.state}}</td>
+                                <td class="px-6 py-4">
+                                    <span class="label badge" [ngClass]="{'badge-danger':['deactivated','deleted','canceled','rejected'].includes(wifiZone.state),'badge-warning':['processing','pending'].includes(wifiZone.state),'badge-success':wifiZone.state=='created','badge-primary':['completed','active','approved','collected'].includes(wifiZone.state)}">{{wifiZone.state}}</span>
+                                </td>
                                 <td class="px-6 py-4">{{wifiZone.created_at|date:'medium'}}</td>
                                 
                                 <td class="btn-action">

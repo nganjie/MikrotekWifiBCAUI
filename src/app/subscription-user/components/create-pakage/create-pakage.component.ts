@@ -17,6 +17,7 @@ export class CreatePakageComponent implements OnInit {
    @Output() realod= new EventEmitter<boolean>()
     @Input()typeOperation='create'
     @Input()pakage_wifi_id?:string
+    loading$!:Observable<boolean>;
     pakageForm!:FormGroup
     wifiZones$!:Observable<WifiZoneDetail[]>;
     btnSubmit=false
@@ -40,6 +41,7 @@ export class CreatePakageComponent implements OnInit {
     }
     initForm(){
       this.error$=this.pakageServices.error$;
+      this.loading$=this.pakageServices.loading$;
       this.confirmSubmit$=this.pakageServices.confirmSubmit$
       this.confirmSubmit$.subscribe(
         bo=>{
@@ -55,6 +57,7 @@ export class CreatePakageComponent implements OnInit {
         type:['',Validators.required],
         fixed_charge:['',Validators.required],
         percent_charge:['',Validators.required],
+        sms_charge:['',Validators.required],
         min_limit:['',Validators.required],
       })
       if(this.typeOperation=="update"){

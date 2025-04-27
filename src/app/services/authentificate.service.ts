@@ -23,6 +23,7 @@ export class AuthentificateService extends GlobalServices{
     super(https,snak)
   }
   autentificate(userName:string|null,password:string|null){
+    this.setLoadStatus(true);
     this.http.post<ApiResponse>(`${environment.apiUrlFirst}/auth/login`,{
         "email":userName,
         "password":password
@@ -40,6 +41,7 @@ export class AuthentificateService extends GlobalServices{
             if(dataServer.success)
             {
                 this.setLoginStatus(false)
+                this.setLoadStatus(false);
                 localStorage.setItem("currentUser",JSON.stringify(dataServer.data))
                 localStorage.setItem('appToken',dataServer.message)
                 this.router.navigateByUrl('/admin/wifi-zones');

@@ -11,7 +11,7 @@
         }
         <form [formGroup]="ticketWifiForm">
             
-            <div  class="form-outline mb-4">
+            <div  class="form-outline mb-4" *ngIf="!pakage_wifi_id">
                 <label class="form-label" for="pakage_wifi">{{"pakage WI-FI"|translate}}</label>
                 <select class="form-select "  id="zone_wifi" aria-label=".form-select-lg example" formControlName="pakage_wifi_id">
                     @if(pakageWifis$|async;as pakageWifis){
@@ -40,6 +40,9 @@
             </div>
         </form>
         <div  class="form-outline mb-4">
+            @if(loading$|async){
+                <mat-spinner></mat-spinner>
+            }
             <button type="submit" style="margin-top :25px;width: 100%;" class="btn btn-primary" (click)="submitForm()"> {{'import'|translate|titlecase}} </button>
         </div>
     </div>

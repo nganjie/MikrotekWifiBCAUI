@@ -1,0 +1,84 @@
+<div>
+    <div class="flex mb-20 mt-10">
+        <div class="w-1/2">
+            <h1>{{"Withdrawals"|translate}}</h1>
+        </div>
+        <div class="w-1/2">
+            <button  class="btn btn-primary btn-round" (click)="createWithdrawal()">{{"do"|translate}} {{"Withdrawal"|translate}}</button>
+        </div>
+    </div>
+    <div class="col-sm-6 col-md-3">
+        <div class="card card-stats card-round">
+          <div class="card-body">
+            <div class="row align-items-center">
+              <div class="col-icon">
+                <div
+                  class="icon-big text-center icon-success bubble-shadow-small"
+                >
+                  
+                  <i class="fa-solid fa-landmark"></i>
+                </div>
+              </div>
+              <div class="col col-stats ms-3 ms-sm-0">
+                <div class="numbers">
+                  <p class="card-category">{{"money to withdraw"|translate}}</p>
+                  <h4 class="card-title">{{amounts}} FCFA</h4>            
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+    <div>
+        @if(loading$|async){
+            <mat-spinner></mat-spinner>
+        }
+        <div class="table-responsive">
+            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400" >
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">{{"receiver number"|translate}}</th>
+                        <th scope="col" class="px-6 py-3">{{"amount"|translate}}</th>
+                        <th scope="col" class="px-6 py-3">{{"pakage_type"|translate}}</th>
+                        <th scope="col" class="px-6 py-3">{{"remark"|translate}}</th>
+                        <th scope="col" class="px-6 py-3">{{"status"|translate}}</th>
+                        <th scope="col" class="px-6 py-3">{{"create at"|translate}}</th>
+                        <th scope="col" class="px-6 py-3">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if(withdrawals$|async; as withdrawals){
+                        @for(withdrawal of withdrawals;track withdrawal.id;;let i=$index){
+                            <tr class="dark:bg-gray-800 dark:border-gray-700" [ngClass]="i%2!==0?'bg-gray-100 border-b':'bg-white border-b'">
+                                <td class="px-6 py-4 primary-color" >{{withdrawal.receiver_number}}</td>
+                                <td class="px-6 py-4">{{withdrawal.amount}}</td>
+                                <td class="px-6 py-4">{{withdrawal.pakage_type}}</td>
+                                <td class="px-6 py-4">{{withdrawal.remark}}</td>
+                                <td class="px-6 py-4">
+                                  <span class="label badge" [ngClass]="{'badge-danger':['deactivated','deleted','canceled','rejected'].includes(withdrawal.status),'badge-warning':['processing','pending'].includes(withdrawal.status),'badge-success':withdrawal.status=='created','badge-primary':['completed','active','approved','collected'].includes(withdrawal.status)}">{{withdrawal.status}}</span>
+                                </td>
+                                <td class="px-6 py-4">{{withdrawal.created_at|date:'medium'}}</td>
+                                
+                                <td class="btn-action">
+                                    <button class="btn btn-outline-primary btn-danger" (click)="deletewithdrawal(withdrawal)"><i class="fa fa-trash btn-danger"></i></button>
+                                    <button *ngIf="isAdmin&&withdrawal.status=='pending'" ngbTooltip="{{'validate the withdrawal'|translate}}" class="btn btn-outline-primary btn-warning" (click)="validwithdrawal(withdrawal)"><i class="fa-solid fa-check btn-warning"></i></button>
+                                    <button *ngIf="isAdmin&&withdrawal.status=='pending'" ngbTooltip="{{'decline the withdrawal'|translate}}" class="btn btn-outline-primary btn-warning" (click)="rejectWithdrawal(withdrawal)"><i class="fas fa-ban btn-warning"></i></button>
+                                </td>
+                            </tr>
+                        }
+                    }
+                        
+                
+                </tbody>
+            </table>
+        </div>
+        
+        <mat-paginator #paginator [length]="totaElement" (page)="pageEvent=pageChange($event)"
+        [pageSize]="itemsPerPage"
+       [pageSizeOptions]="pageArray"
+       
+       aria-label="Select page">
+       </mat-paginator>
+    </div>
+</div>

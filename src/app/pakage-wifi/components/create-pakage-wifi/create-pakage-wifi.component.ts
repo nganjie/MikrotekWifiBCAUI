@@ -18,6 +18,8 @@ export class CreatePakageWifiComponent implements OnInit {
    @Output() realod= new EventEmitter<boolean>()
     @Input()typeOperation='create'
     @Input()pakage_wifi_id?:string
+    @Input()wifiZoneId?:string;
+    loading$!:Observable<boolean>;
     pakageWifiForm!:FormGroup
     wifiZones$!:Observable<WifiZoneDetail[]>;
     btnSubmit=false
@@ -41,6 +43,7 @@ export class CreatePakageWifiComponent implements OnInit {
     }
     initForm(){
       this.error$=this.pakageWifiServices.error$;
+      this.loading$=this.pakageWifiServices.loading$;
       this.confirmSubmit$=this.pakageWifiServices.confirmSubmit$
       this.wifiZones$=this.wifiZoneService.wifiZones$;
       this.wifiZoneService.getWifiZonesFormServer({current_page:1,per_page:70});
@@ -56,7 +59,7 @@ export class CreatePakageWifiComponent implements OnInit {
       this.pakageWifiForm=this.formBuilder.group({
         designation:['',Validators.required],
         description:['',Validators.required],
-        wifi_zone_id:['',Validators.required],
+        wifi_zone_id:[this.wifiZoneId,Validators.required],
         price:['',Validators.required],
       })
       if(this.typeOperation=="update"){

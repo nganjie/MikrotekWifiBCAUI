@@ -22,11 +22,14 @@ export class TicketWifiService extends GlobalServices{
   get ticketWifis$():Observable<TicketWifiDetail[]>{
     return this._ticketWifis$.asObservable();
   }
-  getticketWifisFormServer(paginateD:PaginateData){
+  getticketWifisFormServer(paginateD:PaginateData,id:string|undefined){
     const headers=this.getHearder();
+    const url =id?`admin/ticket-wifi/${id}/ticket-wifis`:`admin/ticket-wifi/all`
+    //console.log(id);
+    //console.log('url : ',url)
     this.setLoadStatus(true)
    let pagin =this.explosePaginationOption(paginateD);
-    this.http.get<ApiPaginatedResponse<TicketWifiDetail>>(`${environment.apiUrlFirst}/admin/ticket-wifi/all?${pagin}`,headers).pipe(
+    this.http.get<ApiPaginatedResponse<TicketWifiDetail>>(`${environment.apiUrlFirst}/${url}?${pagin}`,headers).pipe(
       map(dataServer=>{
         console.log(dataServer);
         this._ticketWifis$.next(dataServer.data?.data??[])
@@ -41,20 +44,31 @@ export class TicketWifiService extends GlobalServices{
   }
   importTicketWifi(form:FormData,id:string) {
     console.log(form);
-    this.http.post<ApiResponse<any>>(`${environment.apiUrlFirst}/admin/ticket-wifi/${id}/import`,form,this.headers).pipe(
+    let headers=this.getHearder('mul')
+    let formD=new FormData();
+    //formD.append('tickets',form.getAll)
+    console.log('header  : ',headers)
+    //let upf=new FormData();
+    //upf.append('tikects',form.get('tickets'))
+   /* this.http.post(`${environment.apiUrlFirst}/admin/ticket-wifi/${id}/import`,form,headers).pipe(
         tap(data=>{
             console.log(data)
-            if(data.success){
+            if(data){
                 console.log(data)
               this.setSnackMesage('Tickets WI-FI Imported successfully')
                this.setLoadStatus(true)
                this.setConfirmSubmit(true)
             }else{
-                this._error$.next({status:false,message:data.error})
+                //this._error$.next({status:false,message:data.message})
             }
             
         })
-    ).subscribe()
+    ).subscribe()*/
+    this.http.post<ApiResponse<TicketWifiDetail>>(`http://localhost:8002/api/admin/ticket-wifi/${id}/import`, form,headers)
+      .subscribe(res => {
+        console.log(res);
+        alert('Uploaded Successfully.');
+      })
   }
   updateticketWifi(form:FormGroup,wifi_zone_id:string){
     const headers=this.getHearder();
@@ -66,14 +80,14 @@ export class TicketWifiService extends GlobalServices{
          this.setLoadStatus(true)
          this.setConfirmSubmit(true)
       }else{
-          this._error$.next({status:false,message:data.error})
+          this._error$.next({status:false,message:data.message})
       }
       })
     ).subscribe()
   }
   deleteticketWifi(wifi_zone_id:string){
     const headers=this.getHearder();
-    this.http.delete<ApiResponse<TicketWifiDetail>>(`${environment.apiUrlFirst}/admin/wifi-zone/${wifi_zone_id}/delete`,headers).pipe(
+    this.http.delete<ApiResponse<TicketWifiDetail>>(`${environment.apiUrlFirst}/admin/ticket-wifi/${wifi_zone_id}/delete`,headers).pipe(
       tap(data=>{
         if(data.success){
           console.log(data)
@@ -81,14 +95,14 @@ export class TicketWifiService extends GlobalServices{
          this.setLoadStatus(true)
          this.setConfirmSubmit(true)
       }else{
-          this._error$.next({status:false,message:data.error})
+          this._error$.next({status:false,message:data.message})
       }
       })
     ).subscribe()
   }
   getTicketWifiDetail(wifi_zone_id:string):Observable<TicketWifiDetail>{
     const headers=this.getHearder();
-    return this.http.get<ApiResponse<TicketWifiDetail>>(`${environment.apiUrlFirst}/admin/wifi-zone/${wifi_zone_id}/detail`,headers).pipe(
+    return this.http.get<ApiResponse<TicketWifiDetail>>(`${environment.apiUrlFirst}/admin/ticket-wifi/${wifi_zone_id}/details`,headers).pipe(
       map(data=>data.data as TicketWifiDetail)
     )
   }

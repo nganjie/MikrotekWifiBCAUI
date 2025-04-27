@@ -1,8 +1,8 @@
 <div>
     <h1>{{"transactions"|translate}}</h1>
-    <div class="flex mb-20 mt-10">
-        <div class="col-lg-1 mr-2" >
-            <label for="client_id" >{{"WifiZone"|translate}}: </label>
+    <div *ngIf="!ticketWifiId" class="flex mb-2" style="width: 100%;" [formGroup]="statForm">
+        <div *ngIf="!pakageWifiId" class="flex mr-2" >
+            <label class="mr-2" for="client_id" >{{"WifiZone"|translate}}: </label>
             <select class="form-select" name="client_id" id="client_id" [formControl]="zoneWifiCtrl">
     
               <option [value]="null">______</option>
@@ -17,8 +17,8 @@
     
             </select>
           </div>
-          <div class="col-lg-1 mr-2" >
-            <label for="client_id" >{{"PakageWifi"|translate}}: </label>
+          <div *ngIf="!pakageWifiId" class="flex  mr-2" >
+            <label class="mr-2" for="client_id" >{{"PakageWifi"|translate}}: </label>
             <select class="form-select" name="client_id" id="client_id" [formControl]="pakageWifiCtrl">
     
               <option [value]="null">______</option>
@@ -34,29 +34,44 @@
             </select>
           </div>
         <div class="flex mr-2">
-            <label for="day_intervale">{{"period"|translate}}: </label>
-            <select class="form-select mb-4" name="day_intervale" id="day_intervale" [formControl]="periodCtrl">
+            <label class="mr-2" for="day_intervale">{{"period"|translate}}: </label>
+            <select class="form-select" name="day_intervale" id="day_intervale" [formControl]="periodCtrl">
               <option [value]="null">______</option>
               @for(data of dataPeriod;track data){
               <option [value]="data">{{data|translate}}</option>
               }
             </select>
-            @if(isCustomPeriod){
-            <div class="d-flex">
-              <div class="input-div mr-2">
-                <label for="start_date" style="margin-right: 10px;">{{"StartDate"|translate}}: </label>
-                <input type="date" id="start_date" class="rounded form-control" [formControl]="startCtrl" />
-              </div>
-              <div class="input-div mr-2">
-                <label for="end_date" style="margin-right: 10px;">{{"EndDate"|translate}}: </label>
-                <input type="date" id="end_date" class="rounded form-control" [formControl]="endCtrl" />
-              </div>
-            </div>
-            }
           </div>
+          <div class="flex  mr-2" >
+            <label class="mr-2" for="client_id" >{{"Status"|translate}}: </label>
+            <select class="form-select"  id="client_id" [formControl]="statusCtrl">
+    
+              <option [value]="null">______</option>
+              @for(item of dataStatus;track $index){
+                <option [value]="item">{{item|translate}}</option>
+                }@empty {
+                <option>empty data</option>
+                }
+    
+    
+            </select>
+          </div>
+          
     </div>
     
     <div>
+      @if(isCustomPeriod){
+        <div class="flex" style="width: 200px;">
+          <div class="flex mr-2">
+            <label for="start_date" >{{"StartDate"|translate}}: </label>
+            <input type="date" id="start_date" class="rounded form-control" [formControl]="startCtrl" />
+          </div>
+          <div class="flex mr-2">
+            <label for="end_date">{{"EndDate"|translate}}: </label>
+            <input type="date" id="end_date" class="rounded form-control" [formControl]="endCtrl" />
+          </div>
+        </div>
+        }
         @if(loading$|async){
             <mat-spinner></mat-spinner>
         }
@@ -86,7 +101,9 @@
                                 <td class="px-6 py-4 primary-color" >{{transaction.receiver_number}}</td>
                                 <td class="px-6 py-4">{{transaction.type}}</td>
                                 <td class="px-6 py-4">{{transaction.price}}</td>
-                                <td class="px-6 py-4">{{transaction.status}}</td>
+                                <td class="px-6 py-4">
+                                  <span class="label badge" [ngClass]="{'badge-danger':['deactivated','deleted','canceled','rejected','failed'].includes(transaction.status),'badge-warning':['processing','pending'].includes(transaction.status),'badge-success':transaction.status=='created','badge-primary':['completed','active','approved','collected'].includes(transaction.status)}">{{transaction.status}}</span>
+                                </td>
                                 <td class="px-6 py-4">{{transaction.ticket_wifi.pakage_wifi.zone_wifis.name}}</td>
                                 <td class="px-6 py-4">{{transaction.ticket_wifi.pakage_wifi.designation}}</td>
                                 <td class="px-6 py-4">{{transaction.ticket_wifi.username}}</td>

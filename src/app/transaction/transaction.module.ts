@@ -32,6 +32,9 @@ import { TransactionDetailComponent } from './components/transaction-detail/tran
             ),
             SharedModule
   ],
+  exports:[
+    ListTransactionComponent
+  ],
   providers:[
         LanguageService,
         TransactionService

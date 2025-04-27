@@ -10,6 +10,7 @@ import { environment } from '../../../environments/environment';
 import { PaginateData } from '../../models/paginate-data.model';
 import { FormGroup } from '@angular/forms';
 import { PakageWifiDetail } from '../../pakage-wifi/models/pakage-wifi-detail.model';
+import { searchOption } from '../../models/search-option.model';
 
 @Injectable({
   providedIn: 'root'
@@ -40,7 +41,19 @@ export class WifiZoneService extends GlobalServices{
       })
     ).subscribe()
   }
-  getWifiZonesFullFormServer(){
+  getWifiZonesFullFormServer(searchOptions:searchOption[]=[]){
+    const headers=this.getHearder();
+    this.setLoadStatus(true)
+    const search =this.exploseSearchOption(searchOptions);
+    this.http.get<ApiResponse<WifiZoneDetail[]>>(`${environment.apiUrlFirst}/admin/wifi-zone/full-all?${search}`,headers).pipe(
+      map(dataServer=>{
+        console.log(dataServer);
+        this._wifiZones$.next(dataServer.data??[])
+        this.setLoadStatus(false)
+      })
+    ).subscribe()
+  }
+  getWifiZonesFullUserFormServer(){
     const headers=this.getHearder();
     this.setLoadStatus(true)
     this.http.get<ApiResponse<WifiZoneDetail[]>>(`${environment.apiUrlFirst}/admin/wifi-zone/full-all?`,headers).pipe(
@@ -53,22 +66,22 @@ export class WifiZoneService extends GlobalServices{
   }
   getPakageWifisFormServer(id:string):Observable<PakageWifiDetail[]>{
         const headers=this.getHearder();
-       return  this.http.get<ApiResponse<PakageWifiDetail[]>>(`${environment.apiUrlFirst}/admin/pakage-wifi/${id}/pakage-wifis`,headers).pipe(
-          map(data=>data.data)
+       return  this.http.get<ApiPaginatedResponse<PakageWifiDetail>>(`${environment.apiUrlFirst}/admin/pakage-wifi/${id}/pakage-wifis`,headers).pipe(
+          map(data=>data.data?.data??[])
         )
       }
   createWifiZone(form:FormGroup) {
-
+    this.setLoadStatus(true);
     this.http.post<ApiResponse<any>>(`${environment.apiUrlFirst}/admin/wifi-zone/create`,form.value,this.headers).pipe(
         tap(data=>{
             console.log(data)
             if(data.success){
                 console.log(data)
               this.setSnackMesage('Wi-fi Zone create successfully')
-               this.setLoadStatus(true)
+               this.setLoadStatus(false)
                this.setConfirmSubmit(true)
             }else{
-                this._error$.next({status:false,message:data.error})
+                this._error$.next({status:false,message:data.message})
             }
             
         })
@@ -84,7 +97,7 @@ export class WifiZoneService extends GlobalServices{
          this.setLoadStatus(true)
          this.setConfirmSubmit(true)
       }else{
-          this._error$.next({status:false,message:data.error})
+          this._error$.next({status:false,message:data.message})
       }
       })
     ).subscribe()
@@ -99,7 +112,7 @@ export class WifiZoneService extends GlobalServices{
          this.setLoadStatus(true)
          this.setConfirmSubmit(true)
       }else{
-          this._error$.next({status:false,message:data.error})
+          this._error$.next({status:false,message:data.message})
       }
       })
     ).subscribe()
